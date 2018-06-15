@@ -9,7 +9,7 @@ Hero::Hero()
 
 void Hero::setup(string path, float x, float y, int level[][40])
 {
-	cout << level[0][0] << endl;
+	//cout << level[0][0] << endl;
 	sprite.load(path);
 	position.set(x + sprite.getWidth(), y + sprite.getHeight());
 	momentum.set(0, 0);
