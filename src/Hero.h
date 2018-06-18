@@ -15,6 +15,8 @@ private:
 	float maxSpeed = 40;
 	bool pulando;
 	int vidas;
+	int tiles[40][40];
+	int type;
 
 public:
 	bool is_left_press, is_right_press, is_up_press, is_down_press;

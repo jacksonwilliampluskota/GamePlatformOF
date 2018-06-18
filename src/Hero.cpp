@@ -10,6 +10,16 @@ Hero::Hero()
 void Hero::setup(string path, float x, float y, int level[][40])
 {
 	//cout << level[0][0] << endl;
+
+	for (int i = 0; i < 40; i++)
+	{
+		for (int j = 0; j < 40; j++)
+		{
+			tiles[i][j] = level[i][j];
+		}
+	}
+
+	cout << tiles[39][39] << endl;
 	sprite.load(path);
 	position.set(x + sprite.getWidth(), y + sprite.getHeight());
 	momentum.set(0, 0);
@@ -31,20 +41,23 @@ void Hero::update(float deltaTime)
 
 	acceleration = forces / mass;
 	int arrayTileX = (position.x / 40) * 2.5;
-	cout << arrayTileX << endl;
+	int arrayTileY = (position.y / 40) * 2.5;
+	cout << "x:" << arrayTileX << endl;
+	cout << "y:" << arrayTileY << endl;
 
-	if (position.y >= 300)
-	{
-		if (!pulando)
-		{
-			momentum.y = 0;
-		}
-		pulando = false;
-	}
-	else
-	{
-		acceleration += gravidade;
-	}
+	/* type = tiles[i][j];
+			if (type == 16)
+			{
+				if (!pulando)
+				{
+					momentum.y = 0;
+				}
+				pulando = false;
+			}
+			else
+			{
+				acceleration += gravidade;
+			} */
 
 	accelSecs = acceleration * deltaTime;
 	position += (momentum + accelSecs) * deltaTime;
