@@ -1,16 +1,18 @@
 #include "Hero.h"
 #include <stdio.h>
+#include "Animation.h"
 
 using namespace std;
-
+Animation *animation;
 Hero::Hero()
 {
+	animation = new Animation();
 }
 
 void Hero::setup(string path, float x, float y, int level[][40])
 {
-	//cout << level[0][0] << endl;
-
+	qtdAnimation = 4;
+	animation->setup(state, qtdAnimation);
 	for (int i = 0; i < 40; i++)
 	{
 		for (int j = 0; j < 40; j++)
@@ -19,7 +21,7 @@ void Hero::setup(string path, float x, float y, int level[][40])
 		}
 	}
 
-	cout << tiles[39][39] << endl;
+	//cout << tiles[39][39] << endl;
 	sprite.load(path);
 	position.set(x + sprite.getWidth(), y + sprite.getHeight());
 	momentum.set(0, 0);
@@ -40,24 +42,22 @@ void Hero::update(float deltaTime)
 	forces = forces * speed;
 
 	acceleration = forces / mass;
-	int arrayTileX = (position.x / 40) * 2.5;
-	int arrayTileY = (position.y / 40) * 2.5;
-	cout << "x:" << arrayTileX << endl;
-	cout << "y:" << arrayTileY << endl;
+	int arrayTileX = ((position.x + sprite.getWidth()) / 40) * 2.5;
+	int arrayTileY = ((position.y + sprite.getHeight()) / 40) * 2.5;
 
-	/* type = tiles[i][j];
-			if (type == 16)
-			{
-				if (!pulando)
-				{
-					momentum.y = 0;
-				}
-				pulando = false;
-			}
-			else
-			{
-				acceleration += gravidade;
-			} */
+	type = tiles[arrayTileY][arrayTileX];
+	if (type == 16)
+	{
+		if (!pulando)
+		{
+			momentum.y = 0;
+		}
+		pulando = false;
+	}
+	else
+	{
+		acceleration += gravidade;
+	}
 
 	accelSecs = acceleration * deltaTime;
 	position += (momentum + accelSecs) * deltaTime;
@@ -104,8 +104,7 @@ void Hero::update(float deltaTime)
 
 void Hero::draw()
 {
-	ofTranslate(position.x, position.y);
-	sprite.draw(0, 0);
+	animation->draw(position.x, position.y);
 }
 
 void Hero::jump()
@@ -114,6 +113,11 @@ void Hero::jump()
 	ofVec2f impulse;
 	impulse.set(0, -400);
 	momentum.y += impulse.y / mass;
+}
+
+void Hero::setNewAnimation(string _state, int _qtdAnimation)
+{
+	animation->setup(_state, _qtdAnimation);
 }
 
 void Hero::shoot()

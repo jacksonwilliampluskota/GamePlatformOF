@@ -348,7 +348,8 @@ obj/linux64/Release/src/Hero.o: \
  /home/jackson/Downloads/OF/libs/openFrameworks/video/ofVideoPlayer.h \
  /home/jackson/Downloads/OF/libs/openFrameworks/video/ofGstVideoPlayer.h \
  /home/jackson/Downloads/OF/libs/openFrameworks/3d/ofCamera.h \
- /home/jackson/Downloads/OF/libs/openFrameworks/3d/ofEasyCam.h
+ /home/jackson/Downloads/OF/libs/openFrameworks/3d/ofEasyCam.h \
+ /home/jackson/Documents/plataformGame/src/Animation.h
 
 /home/jackson/Documents/plataformGame/src/Hero.h:
 
@@ -1081,3 +1082,5 @@ obj/linux64/Release/src/Hero.o: \
 /home/jackson/Downloads/OF/libs/openFrameworks/3d/ofCamera.h:
 
 /home/jackson/Downloads/OF/libs/openFrameworks/3d/ofEasyCam.h:
+
+/home/jackson/Documents/plataformGame/src/Animation.h:

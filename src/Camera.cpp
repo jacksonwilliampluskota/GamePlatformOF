@@ -27,7 +27,7 @@ void Camera::update(ofVec2f positionHero)
 	/* cout << heroRelacaoMundo << endl;
 	cout << x << endl; */
 
-	if (heroRelacaoMundo.x > 0 && heroRelacaoMundo.x <= x && heroRelacaoMundo.y > 0 && heroRelacaoMundo.y <= y)
+	if (heroRelacaoMundo.x > 0 && heroRelacaoMundo.x <= x && heroRelacaoMundo.y > 0 /* && heroRelacaoMundo.y <= y */)
 	{
 		view = ofMatrix4x4();
 		view.setTranslation(

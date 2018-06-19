@@ -21,7 +21,7 @@ void ofApp::setup()
   fase1 = new level1();
   fase1->setup();
   hero = new Hero();
-  hero->setup("images/body.png", 170, 180, fase1->leve1);
+  hero->setup("images/body.png", 170, 550, fase1->leve1);
   camera = new Camera();
   camera->setup(hero->getPosition());
   bg.load("images/download.jpg");
@@ -56,7 +56,7 @@ void ofApp::draw()
     ofPushMatrix();
     camera->draw();
     fase1->draw();
-    bg.draw(100, 100);
+    //bg.draw(100, 100);
     hero->draw();
     for (int i = 0; i < bullets.size(); i++)
     {
