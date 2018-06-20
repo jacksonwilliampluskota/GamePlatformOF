@@ -11,7 +11,7 @@ public:
   int imageno, counter, counterlimit, imagex, imagey;
   vector<ofImage> image;
   Animation();
-  void setup(string state, int qtd);
+  void setup(string state, int qtd, int _counterlimit);
   void draw(int x, int y);
   ~Animation();
 };

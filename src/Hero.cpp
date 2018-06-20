@@ -12,7 +12,7 @@ Hero::Hero()
 void Hero::setup(string path, float x, float y, int level[][40])
 {
 	qtdAnimation = 4;
-	animation->setup(state, qtdAnimation);
+	animation->setup(state, qtdAnimation, 10);
 	for (int i = 0; i < 40; i++)
 	{
 		for (int j = 0; j < 40; j++)
@@ -115,9 +115,13 @@ void Hero::jump()
 	momentum.y += impulse.y / mass;
 }
 
-void Hero::setNewAnimation(string _state, int _qtdAnimation)
+void Hero::setNewAnimation(string _state, int _qtdAnimation, int _counterlimit)
 {
-	animation->setup(_state, _qtdAnimation);
+	if (!tryOne)
+	{
+		animation->image.clear();
+		animation->setup(_state, _qtdAnimation, _counterlimit);
+	}
 }
 
 void Hero::shoot()

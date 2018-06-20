@@ -22,6 +22,7 @@ private:
 
 public:
 	bool is_left_press, is_right_press, is_up_press, is_down_press;
+	bool tryOne = false;
 	Hero();
 	void setup(string path, float x, float y, int level[][40]);
 	void update(float deltaTime);
@@ -30,7 +31,7 @@ public:
 	void shoot();
 	bool checkCanShoo();
 	ofVec2f getPosition();
-	void setNewAnimation(string _state, int _qtdAnimation);
+	void setNewAnimation(string _state, int _qtdAnimation, int _counterlimit);
 	float getSpeed();
 	~Hero();
 };

@@ -4,11 +4,11 @@ Animation::Animation()
 {
 }
 
-void Animation::setup(string state, int qtd)
+void Animation::setup(string state, int qtd, int _counterlimit)
 {
   imageno = 0;
   counter = 0;
-  counterlimit = 10;
+  counterlimit = _counterlimit;
   imageNum = qtd;
   for (int i = 0; i < imageNum; i++)
   {

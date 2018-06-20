@@ -90,7 +90,11 @@ void ofApp::keyPressed(int key)
       hero->is_left_press = true;
 
     if (key == OF_KEY_RIGHT)
+    {
       hero->is_right_press = true;
+      hero->setNewAnimation("RUN_RIGHT", 10, 5);
+      hero->tryOne = true;
+    }
 
     if (key == OF_KEY_UP)
       hero->is_up_press = true;
@@ -121,7 +125,11 @@ void ofApp::keyReleased(int key)
       hero->is_left_press = false;
 
     if (key == OF_KEY_RIGHT)
+    {
       hero->is_right_press = false;
+      hero->tryOne = false;
+      hero->setNewAnimation("IDDLE", 4, 10);
+    }
 
     if (key == OF_KEY_UP)
       hero->is_up_press = false;
