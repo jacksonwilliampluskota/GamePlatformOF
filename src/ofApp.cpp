@@ -87,17 +87,39 @@ void ofApp::keyPressed(int key)
   if (gameState == "game")
   {
     if (key == OF_KEY_LEFT)
+    {
+      hero->onLeft = true;
+      hero->onRight = false;
       hero->is_left_press = true;
+      hero->setNewAnimation("RUN_LEFT", 10, 5);
+      hero->tryOne = true;
+    }
 
     if (key == OF_KEY_RIGHT)
     {
+      hero->onRight = true;
+      hero->onLeft = false;
       hero->is_right_press = true;
       hero->setNewAnimation("RUN_RIGHT", 10, 5);
       hero->tryOne = true;
     }
 
     if (key == OF_KEY_UP)
+    {
       hero->is_up_press = true;
+
+      if (hero->onRight)
+      {
+        hero->setNewAnimation("JUMP_RIGHT", 1, 1);
+      }
+
+      if (hero->onLeft)
+      {
+        hero->setNewAnimation("JUMP_LEFT", 1, 1);
+      }
+
+      hero->tryOne = true;
+    }
 
     if (key == OF_KEY_DOWN)
       hero->is_down_press = true;
@@ -122,17 +144,34 @@ void ofApp::keyReleased(int key)
   {
 
     if (key == OF_KEY_LEFT)
+    {
       hero->is_left_press = false;
+      hero->tryOne = false;
+      hero->setNewAnimation("IDDLE_LEFT", 4, 10);
+    }
 
     if (key == OF_KEY_RIGHT)
     {
       hero->is_right_press = false;
       hero->tryOne = false;
-      hero->setNewAnimation("IDDLE", 4, 10);
+      hero->setNewAnimation("IDDLE_RIGHT", 4, 10);
     }
 
     if (key == OF_KEY_UP)
+    {
       hero->is_up_press = false;
+      hero->tryOne = false;
+
+      if (hero->onRight)
+      {
+        hero->setNewAnimation("FALL_RIGHT", 1, 1);
+      }
+
+      if (hero->onLeft)
+      {
+        hero->setNewAnimation("FALL_LEFT", 1, 1);
+      }
+    }
 
     if (key == OF_KEY_DOWN)
       hero->is_down_press = false;

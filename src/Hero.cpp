@@ -52,6 +52,22 @@ void Hero::update(float deltaTime)
 		{
 			momentum.y = 0;
 		}
+		else
+		{
+			if (!tryOne)
+			{
+				if (onRight)
+				{
+					setNewAnimation("IDDLE_RIGHT", 4, 10);
+				}
+
+				if (onLeft)
+				{
+					setNewAnimation("IDDLE_LEFT", 4, 10);
+				}
+			}
+		}
+
 		pulando = false;
 	}
 	else

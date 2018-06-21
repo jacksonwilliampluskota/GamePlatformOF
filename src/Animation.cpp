@@ -16,8 +16,6 @@ void Animation::setup(string state, int qtd, int _counterlimit)
     imagem.load("images/" + state + "/" + std::to_string(i) + ".png");
     image.push_back(imagem);
   }
-  imagex = 0;
-  imagey = 0;
 }
 
 void Animation::draw(int x, int y)
@@ -26,13 +24,17 @@ void Animation::draw(int x, int y)
   ofEnableAlphaBlending();
   image[imageno].draw(0, 0);
   ofDisableAlphaBlending();
-  counter++;
-  if (counter >= counterlimit)
+
+  if (imageNum > 1)
   {
-    counter = 0;
-    imageno++;
-    if (imageno >= imageNum)
-      imageno = 0;
+    counter++;
+    if (counter >= counterlimit)
+    {
+      counter = 0;
+      imageno++;
+      if (imageno >= imageNum)
+        imageno = 0;
+    }
   }
 }
 
