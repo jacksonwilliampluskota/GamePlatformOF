@@ -19,7 +19,8 @@ public:
 	void setup(string path, bool f_p, ofVec2f _position, float s);
 	void update(float deltaTime);
 	void draw();
-	void impulso();
+	void impulso(bool heroLeft);
+	bool colidiu();
 	~Bala();
 };
 

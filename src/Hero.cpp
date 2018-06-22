@@ -25,12 +25,13 @@ void Hero::setup(string path, float x, float y, int level[][40])
 	sprite.load(path);
 	position.set(x + sprite.getWidth(), y + sprite.getHeight());
 	momentum.set(0, 0);
-	gravidade.set(0, 40);
+	gravidade.set(0, 100);
 	pulando = false;
 	is_left_press = false;
 	is_right_press = false;
 	is_up_press = false;
 	is_down_press = false;
+	is_space_press = false;
 }
 
 void Hero::update(float deltaTime)
@@ -127,7 +128,7 @@ void Hero::jump()
 {
 	momentum.set(0, 0);
 	ofVec2f impulse;
-	impulse.set(0, -400);
+	impulse.set(0, -1000);
 	momentum.y += impulse.y / mass;
 }
 
@@ -142,11 +143,16 @@ void Hero::setNewAnimation(string _state, int _qtdAnimation, int _counterlimit)
 
 void Hero::shoot()
 {
+
+	if (canshoot)
+	{
+		canshoot = false;
+	}
 }
 
 bool Hero::checkCanShoo()
 {
-	return false;
+	return canshoot;
 }
 
 ofVec2f Hero::getPosition()

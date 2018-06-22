@@ -39,18 +39,35 @@ void Bala::update(float deltaTime)
 
 void Bala::draw()
 {
-	ofPushMatrix();
+
 	ofTranslate(position.x, position.y);
 	sprite.draw(0, 0);
-	ofPopMatrix();
 }
 
-void Bala::impulso()
+void Bala::impulso(bool heroLeft)
 {
 	momentum.set(0, 0);
 	ofVec2f impulse;
 	impulse.set(30, 0);
+
+	if (heroLeft)
+	{
+		impulse.set(-30, 0);
+	}
+
 	momentum += impulse / mass;
+}
+
+bool Bala::colidiu()
+{
+	//colide com bordas
+	if (ofGetWidth() + position.x < 0 || position.x + width > ofGetWindowWidth())
+		return true;
+
+	if (position.y > ofGetWindowHeight())
+		return true;
+
+	return false;
 }
 
 Bala::~Bala()

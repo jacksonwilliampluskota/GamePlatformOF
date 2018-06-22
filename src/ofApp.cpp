@@ -5,6 +5,7 @@
 #include "Bala.h"
 #include "level1.h"
 #include <string>
+#include <stdio.h>
 
 string gameState;
 World *mundo;
@@ -74,10 +75,21 @@ void ofApp::bullet_update(float deltaTime)
   for (int i = 0; i < bullets.size(); i++)
   {
     bullets[i].update(deltaTime);
-    bullets[i].impulso();
-    if (bullets[i].position.x - bullets[i].width / 2 < 0 || bullets[i].position.x + bullets[i].width / 2 > ofGetWidth())
+
+    if (hero->checkCanShoo())
     {
+      bullets[i].impulso(hero->onLeft);
+    }
+
+    if (bullets[i].colidiu())
+    {
+      std::cout << "foi" << std::endl;
       bullets.erase(bullets.begin() + i);
+      hero->canshoot = true;
+    }
+    else
+    {
+      hero->shoot();
     }
   }
 }
@@ -127,8 +139,25 @@ void ofApp::keyPressed(int key)
     if (key == ' ')
     {
       Bala b;
-      b.setup("images/bala.png", true, hero->getPosition(), hero->getSpeed());
-      bullets.push_back(b);
+      hero->is_space_press = true;
+      if (hero->onRight)
+      {
+        hero->setNewAnimation("BOW_RIGHT", 5, 3);
+        b.setup("images/ARROW_RIGHT/0.png", true, hero->getPosition(), hero->getSpeed());
+      }
+
+      if (hero->onLeft)
+      {
+        hero->setNewAnimation("BOW_LEFT", 5, 3);
+        b.setup("images/ARROW_LEFT/0.png", true, hero->getPosition(), hero->getSpeed());
+      }
+
+      hero->tryOne = true;
+
+      if (hero->checkCanShoo())
+      {
+        bullets.push_back(b);
+      }
     }
   }
 }
@@ -174,7 +203,25 @@ void ofApp::keyReleased(int key)
     }
 
     if (key == OF_KEY_DOWN)
+    {
       hero->is_down_press = false;
+    }
+
+    if (key == ' ')
+    {
+      hero->is_space_press = false;
+      hero->tryOne = false;
+
+      if (hero->onRight)
+      {
+        hero->setNewAnimation("IDDLE_RIGHT", 1, 1);
+      }
+
+      if (hero->onLeft)
+      {
+        hero->setNewAnimation("IDDLE_LEFT", 4, 10);
+      }
+    }
   }
 }
 

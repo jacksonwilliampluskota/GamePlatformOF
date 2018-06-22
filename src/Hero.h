@@ -21,9 +21,10 @@ private:
 	int qtdAnimation;
 
 public:
-	bool is_left_press, is_right_press, is_up_press, is_down_press;
+	bool is_left_press, is_right_press, is_up_press, is_down_press, is_space_press;
 	bool tryOne = false;
 	bool onLeft = false, onRight = true;
+	bool canshoot = true;
 	Hero();
 	void setup(string path, float x, float y, int level[][40]);
 	void update(float deltaTime);
