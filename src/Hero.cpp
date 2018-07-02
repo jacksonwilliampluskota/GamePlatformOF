@@ -26,12 +26,17 @@ void Hero::setup(string path, float x, float y, int level[][40])
 	position.set(x + sprite.getWidth(), y + sprite.getHeight());
 	momentum.set(0, 0);
 	gravidade.set(0, 100);
+
+	imagemseta.load("images/seta.png");
+	imagemseta.setAnchorPercent(0, 0.5f);
+
 	pulando = false;
 	is_left_press = false;
 	is_right_press = false;
 	is_up_press = false;
 	is_down_press = false;
 	is_space_press = false;
+	is_B_press = false;
 }
 
 void Hero::update(float deltaTime)
@@ -122,6 +127,17 @@ void Hero::update(float deltaTime)
 void Hero::draw()
 {
 	animation->draw(position.x, position.y);
+
+	if (bomb)
+	{
+		std::cout << position.y << std::endl;
+		ofSetColor(255, 255, 255);
+		ofDrawLine(position.x, position.y, mousePosition.x, mousePosition.y);
+		ofSetColor(255, 255, 255);
+
+		ofTranslate(mousePosition.x, mousePosition.y);
+		imagemseta.draw(0, 0);
+	}
 }
 
 void Hero::jump()
@@ -165,6 +181,10 @@ float Hero::getSpeed()
 	return speed;
 }
 
+void Hero::movedMouse(int x, int y)
+{
+	mousePosition.set(x, y);
+}
 Hero::~Hero()
 {
 }

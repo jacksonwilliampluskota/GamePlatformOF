@@ -8,8 +8,9 @@ Bala::Bala()
 {
 }
 
-void Bala::setup(string path, bool f_p, ofVec2f _position, float s)
+void Bala::setup(string path, bool f_p, ofVec2f _position, float s, char tipo)
 {
+	_tipo = tipo;
 	fromPlayer = f_p;
 	position.set(10, 10);
 
@@ -24,38 +25,56 @@ void Bala::setup(string path, bool f_p, ofVec2f _position, float s)
 void Bala::update(float deltaTime)
 {
 
-	ofVec2f forces;
-	ofVec2f acceleration;
-	ofVec2f accelSecs;
+	std::cout << _tipo << std::endl;
 
-	forces = forces * speed;
+	if (_tipo == A)
+	{
+		ofVec2f forces;
+		ofVec2f acceleration;
+		ofVec2f accelSecs;
 
-	acceleration = forces / mass;
+		forces = forces * speed;
 
-	accelSecs = acceleration * deltaTime;
-	position += (momentum + accelSecs) * deltaTime;
-	momentum += accelSecs;
+		acceleration = forces / mass;
+
+		accelSecs = acceleration * deltaTime;
+		position += (momentum + accelSecs) * deltaTime;
+		momentum += accelSecs;
+	}
 }
 
 void Bala::draw()
 {
+	if (_tipo == A)
+	{
+		ofTranslate(position.x, position.y);
+		sprite.draw(0, 0);
+	}
 
-	ofTranslate(position.x, position.y);
-	sprite.draw(0, 0);
+	if (_tipo == B)
+	{
+	}
 }
 
 void Bala::impulso(bool heroLeft)
 {
-	momentum.set(0, 0);
-	ofVec2f impulse;
-	impulse.set(30, 0);
-
-	if (heroLeft)
+	if (_tipo == A)
 	{
-		impulse.set(-30, 0);
+		momentum.set(0, 0);
+		ofVec2f impulse;
+		impulse.set(30, 0);
+
+		if (heroLeft)
+		{
+			impulse.set(-30, 0);
+		}
+
+		momentum += impulse / mass;
 	}
 
-	momentum += impulse / mass;
+	if (_tipo == B)
+	{
+	}
 }
 
 bool Bala::colidiu()

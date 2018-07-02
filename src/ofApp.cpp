@@ -96,6 +96,7 @@ void ofApp::bullet_update(float deltaTime)
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
+  std::cout << key << std::endl;
   if (gameState == "game")
   {
     if (key == OF_KEY_LEFT)
@@ -143,15 +144,31 @@ void ofApp::keyPressed(int key)
       if (hero->onRight)
       {
         hero->setNewAnimation("BOW_RIGHT", 5, 3);
-        b.setup("images/ARROW_RIGHT/0.png", true, hero->getPosition(), hero->getSpeed());
+        b.setup("images/ARROW_RIGHT/0.png", true, hero->getPosition(), hero->getSpeed(), 'A');
       }
 
       if (hero->onLeft)
       {
         hero->setNewAnimation("BOW_LEFT", 5, 3);
-        b.setup("images/ARROW_LEFT/0.png", true, hero->getPosition(), hero->getSpeed());
+        b.setup("images/ARROW_LEFT/0.png", true, hero->getPosition(), hero->getSpeed(), 'A');
       }
 
+      hero->tryOne = true;
+
+      if (hero->checkCanShoo())
+      {
+        bullets.push_back(b);
+      }
+    }
+
+    if (key == 113)
+    {
+      Bala b;
+      hero->is_B_press = true;
+      hero->bomb = true;
+      //code here
+      hero->setNewAnimation("BOW_LEFT", 5, 3);
+      b.setup("images/DINAMYT/0.png", true, hero->getPosition(), hero->getSpeed(), 'B');
       hero->tryOne = true;
 
       if (hero->checkCanShoo())
@@ -228,6 +245,7 @@ void ofApp::keyReleased(int key)
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y)
 {
+  hero->movedMouse(x, y);
 }
 
 //--------------------------------------------------------------
