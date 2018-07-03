@@ -14,6 +14,8 @@ Camera *camera;
 level1 *fase1;
 ofImage bg;
 vector<Bala> bullets;
+ofVec2f moused;
+ofVec4f mouseRelacaoMundo;
 //--------------------------------------------------------------
 void ofApp::setup()
 {
@@ -96,7 +98,7 @@ void ofApp::bullet_update(float deltaTime)
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-  std::cout << key << std::endl;
+  //std::cout << key << std::endl;
   if (gameState == "game")
   {
     if (key == OF_KEY_LEFT)
@@ -104,7 +106,13 @@ void ofApp::keyPressed(int key)
       hero->onLeft = true;
       hero->onRight = false;
       hero->is_left_press = true;
-      hero->setNewAnimation("RUN_LEFT", 10, 5);
+
+      if (!hero->bomb)
+      {
+
+        hero->setNewAnimation("RUN_LEFT", 10, 5);
+      }
+
       hero->tryOne = true;
     }
 
@@ -113,11 +121,16 @@ void ofApp::keyPressed(int key)
       hero->onRight = true;
       hero->onLeft = false;
       hero->is_right_press = true;
-      hero->setNewAnimation("RUN_RIGHT", 10, 5);
+
+      if (!hero->bomb)
+      {
+        hero->setNewAnimation("RUN_RIGHT", 10, 5);
+      }
+
       hero->tryOne = true;
     }
 
-    if (key == OF_KEY_UP)
+    if (key == OF_KEY_UP && !hero->bomb)
     {
       hero->is_up_press = true;
 
@@ -137,7 +150,7 @@ void ofApp::keyPressed(int key)
     if (key == OF_KEY_DOWN)
       hero->is_down_press = true;
 
-    if (key == ' ')
+    if (key == ' ' && !hero->bomb)
     {
       Bala b;
       hero->is_space_press = true;
@@ -164,7 +177,7 @@ void ofApp::keyPressed(int key)
     if (key == 113)
     {
       Bala b;
-      hero->is_B_press = true;
+      hero->is_Q_press = true;
       hero->bomb = true;
       //code here
       hero->setNewAnimation("BOW_LEFT", 5, 3);
@@ -193,17 +206,26 @@ void ofApp::keyReleased(int key)
     {
       hero->is_left_press = false;
       hero->tryOne = false;
-      hero->setNewAnimation("IDDLE_LEFT", 4, 10);
+
+      if (!hero->bomb)
+      {
+        hero->setNewAnimation("IDDLE_LEFT", 4, 10);
+      }
     }
 
     if (key == OF_KEY_RIGHT)
     {
       hero->is_right_press = false;
       hero->tryOne = false;
-      hero->setNewAnimation("IDDLE_RIGHT", 4, 10);
+
+      if (!hero->bomb)
+      {
+        /* code */
+        hero->setNewAnimation("IDDLE_RIGHT", 4, 10);
+      }
     }
 
-    if (key == OF_KEY_UP)
+    if (key == OF_KEY_UP && !hero->bomb)
     {
       hero->is_up_press = false;
       hero->tryOne = false;
@@ -224,7 +246,7 @@ void ofApp::keyReleased(int key)
       hero->is_down_press = false;
     }
 
-    if (key == ' ')
+    if (key == ' ' && !hero->bomb)
     {
       hero->is_space_press = false;
       hero->tryOne = false;
@@ -245,7 +267,9 @@ void ofApp::keyReleased(int key)
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y)
 {
-  hero->movedMouse(x, y);
+  moused.set(x, y);
+  mouseRelacaoMundo = camera->posicaoRelacaoMundo(moused);
+  hero->movedMouse(mouseRelacaoMundo.x, mouseRelacaoMundo.y);
 }
 
 //--------------------------------------------------------------

@@ -12,7 +12,7 @@ void Bala::setup(string path, bool f_p, ofVec2f _position, float s, char tipo)
 {
 	_tipo = tipo;
 	fromPlayer = f_p;
-	position.set(10, 10);
+	position.set(_position.x, _position.y + 8);
 
 	speed = s + 3;
 	sprite.load(path);
@@ -24,8 +24,6 @@ void Bala::setup(string path, bool f_p, ofVec2f _position, float s, char tipo)
 
 void Bala::update(float deltaTime)
 {
-
-	std::cout << _tipo << std::endl;
 
 	if (_tipo == A)
 	{

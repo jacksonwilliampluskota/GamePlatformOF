@@ -7,7 +7,6 @@ class Hero
 {
 private:
 	ofImage sprite;
-	ofVec2f position;
 	ofVec2f gravidade;
 	ofVec2f momentum;
 	float mass = 15;
@@ -20,14 +19,17 @@ private:
 	string state = "IDDLE_RIGHT";
 	int qtdAnimation;
 	ofVec2f mousePosition;
+	ofVec2f vecMouse;
 	ofImage imagemseta;
+	float angle;
 
 public:
-	bool is_left_press, is_right_press, is_up_press, is_down_press, is_space_press, is_B_press;
+	bool is_left_press, is_right_press, is_up_press, is_down_press, is_space_press, is_Q_press;
 	bool tryOne = false;
 	bool onLeft = false, onRight = true;
 	bool canshoot = true;
 	bool bomb = false;
+	ofVec2f position;
 	Hero();
 	void setup(string path, float x, float y, int level[][40]);
 	void update(float deltaTime);
@@ -39,6 +41,8 @@ public:
 	void setNewAnimation(string _state, int _qtdAnimation, int _counterlimit);
 	float getSpeed();
 	void movedMouse(int x, int y);
+	void getAngle(ofVec2f vetor);
+	float toDegrees(float gd);
 	~Hero();
 };
 

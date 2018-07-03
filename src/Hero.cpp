@@ -36,7 +36,7 @@ void Hero::setup(string path, float x, float y, int level[][40])
 	is_up_press = false;
 	is_down_press = false;
 	is_space_press = false;
-	is_B_press = false;
+	is_Q_press = false;
 }
 
 void Hero::update(float deltaTime)
@@ -95,26 +95,29 @@ void Hero::update(float deltaTime)
 		momentum.x = maxSpeed * -1;
 	}
 
-	if (is_left_press)
+	if (!bomb)
 	{
-		ofVec2f andar;
-		andar.set(50, 0);
-		momentum -= andar / mass;
-	}
-
-	if (is_right_press)
-	{
-		ofVec2f andar;
-		andar.set(50, 0);
-		momentum += andar / mass;
-	}
-
-	if (is_up_press)
-	{
-		if (!pulando)
+		if (is_left_press)
 		{
-			jump();
-			pulando = true;
+			ofVec2f andar;
+			andar.set(50, 0);
+			momentum -= andar / mass;
+		}
+
+		if (is_right_press)
+		{
+			ofVec2f andar;
+			andar.set(50, 0);
+			momentum += andar / mass;
+		}
+
+		if (is_up_press)
+		{
+			if (!pulando)
+			{
+				jump();
+				pulando = true;
+			}
 		}
 	}
 
@@ -126,16 +129,18 @@ void Hero::update(float deltaTime)
 
 void Hero::draw()
 {
+	ofPushMatrix();
 	animation->draw(position.x, position.y);
+	ofPopMatrix();
 
 	if (bomb)
 	{
-		std::cout << position.y << std::endl;
 		ofSetColor(255, 255, 255);
 		ofDrawLine(position.x, position.y, mousePosition.x, mousePosition.y);
 		ofSetColor(255, 255, 255);
 
 		ofTranslate(mousePosition.x, mousePosition.y);
+		ofRotateZ(angle);
 		imagemseta.draw(0, 0);
 	}
 }
@@ -184,6 +189,18 @@ float Hero::getSpeed()
 void Hero::movedMouse(int x, int y)
 {
 	mousePosition.set(x, y);
+	vecMouse = mousePosition - position;
+	getAngle(vecMouse);
+}
+
+void Hero::getAngle(ofVec2f vetor)
+{
+	angle = toDegrees(atan2(vetor.y, vetor.x));
+}
+
+float Hero::toDegrees(float gd)
+{
+	return gd * 180 / PI;
 }
 Hero::~Hero()
 {

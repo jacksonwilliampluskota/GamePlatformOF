@@ -14,6 +14,7 @@ void Animation::setup(string state, int qtd, int _counterlimit)
   {
     ofImage imagem;
     imagem.load("images/" + state + "/" + std::to_string(i) + ".png");
+    imagem.setAnchorPercent(0.5f, 0.5f);
     image.push_back(imagem);
   }
 }
