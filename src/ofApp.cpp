@@ -176,18 +176,27 @@ void ofApp::keyPressed(int key)
 
     if (key == 113)
     {
-      Bala b;
+      //Bala b;
       hero->is_Q_press = true;
       hero->bomb = true;
       //code here
-      hero->setNewAnimation("BOW_LEFT", 5, 3);
-      b.setup("images/DINAMYT/0.png", true, hero->getPosition(), hero->getSpeed(), 'B');
+      if (hero->onLeft)
+      {
+        hero->setNewAnimation("DINAMYT_LEFT", 1, 1);
+      }
+
+      if (hero->onRight)
+      {
+        hero->setNewAnimation("DINAMYT_RIGHT", 1, 1);
+      }
+
+      /* b.setup("images/DINAMYT/0.png", true, hero->getPosition(), hero->getSpeed(), 'B');
       hero->tryOne = true;
 
       if (hero->checkCanShoo())
       {
         bullets.push_back(b);
-      }
+      } */
     }
   }
 }
@@ -220,7 +229,6 @@ void ofApp::keyReleased(int key)
 
       if (!hero->bomb)
       {
-        /* code */
         hero->setNewAnimation("IDDLE_RIGHT", 4, 10);
       }
     }
@@ -270,6 +278,33 @@ void ofApp::mouseMoved(int x, int y)
   moused.set(x, y);
   mouseRelacaoMundo = camera->posicaoRelacaoMundo(moused);
   hero->movedMouse(mouseRelacaoMundo.x, mouseRelacaoMundo.y);
+
+  ofVec2f positionHero = hero->getPosition();
+
+  if (hero->bomb)
+  {
+
+    if (mouseRelacaoMundo.x > positionHero.x)
+    {
+      hero->onRight = true;
+      hero->onLeft = false;
+      hero->is_right_press = true;
+      hero->setNewAnimation("DINAMYT_RIGHT", 1, 1);
+      hero->tryOne = true;
+    }
+
+    if (mouseRelacaoMundo.x < positionHero.x)
+    {
+      //std::cout << "aqui" << std::endl;
+      hero->onLeft = true;
+      hero->onRight = false;
+      hero->is_left_press = true;
+      hero->setNewAnimation("DINAMYT_LEFT", 1, 1);
+      hero->tryOne = true;
+    }
+
+    hero->tryOne = false;
+  }
 }
 
 //--------------------------------------------------------------
@@ -280,11 +315,40 @@ void ofApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
+  if (hero->bomb)
+  {
+    Bala b;
+    b.setup("images/DINAMYT/0.png", true, hero->getPosition(), hero->getSpeed(), 'B');
+    hero->tryOne = true;
+
+    if (hero->checkCanShoo())
+    {
+      std::cout << "aqui" << std::endl;
+      bullets.push_back(b);
+    }
+  }
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button)
 {
+  hero->tryOne = false;
+
+  /* hero->is_Q_press = false;
+  hero->tryOne = false;
+
+  if (hero->onRight)
+  {
+    hero->is_right_press = false;
+    hero->setNewAnimation("IDDLE_RIGHT", 4, 10);
+  }
+
+  if (hero->onLeft)
+  {
+    hero->is_right_press = false;
+    hero->setNewAnimation("IDDLE_LEFT", 4, 10);
+  }
+  hero->bomb = false; */
 }
 
 //--------------------------------------------------------------

@@ -17,6 +17,7 @@ private:
 		A = 65,
 		B = 98
 	};
+	ofVec2f gravidade;
 
 public:
 	ofVec2f position;

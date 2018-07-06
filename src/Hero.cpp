@@ -136,7 +136,7 @@ void Hero::draw()
 	if (bomb)
 	{
 		ofSetColor(255, 255, 255);
-		ofDrawLine(position.x, position.y, mousePosition.x, mousePosition.y);
+		ofDrawLine(position.x + 8, position.y + 8, mousePosition.x, mousePosition.y);
 		ofSetColor(255, 255, 255);
 
 		ofTranslate(mousePosition.x, mousePosition.y);
