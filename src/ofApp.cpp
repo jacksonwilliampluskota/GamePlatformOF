@@ -94,6 +94,7 @@ void ofApp::bullet_update(float deltaTime)
 
       if (hero->bomb)
       {
+        //continuar aqui
       }
     }
     else
