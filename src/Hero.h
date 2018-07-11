@@ -21,9 +21,9 @@ private:
 	ofVec2f mousePosition;
 	ofVec2f vecMouse;
 	ofImage imagemseta;
-	float angle;
 
 public:
+	float angle;
 	bool is_left_press, is_right_press, is_up_press, is_down_press, is_space_press, is_Q_press;
 	bool tryOne = false;
 	bool onLeft = false, onRight = true;
@@ -41,6 +41,7 @@ public:
 	void setNewAnimation(string _state, int _qtdAnimation, int _counterlimit);
 	float getSpeed();
 	void movedMouse(int x, int y);
+	ofVec2f vectorMouseHero();
 	void getAngle(ofVec2f vetor);
 	float toDegrees(float gd);
 	~Hero();

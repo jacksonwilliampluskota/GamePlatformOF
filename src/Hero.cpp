@@ -139,9 +139,11 @@ void Hero::draw()
 		ofDrawLine(position.x + 8, position.y + 8, mousePosition.x, mousePosition.y);
 		ofSetColor(255, 255, 255);
 
+		ofPushMatrix();
 		ofTranslate(mousePosition.x, mousePosition.y);
 		ofRotateZ(angle);
 		imagemseta.draw(0, 0);
+		ofPopMatrix();
 	}
 }
 
@@ -191,6 +193,11 @@ void Hero::movedMouse(int x, int y)
 	mousePosition.set(x, y);
 	vecMouse = mousePosition - position;
 	getAngle(vecMouse);
+}
+
+ofVec2f Hero::vectorMouseHero()
+{
+	return vecMouse;
 }
 
 void Hero::getAngle(ofVec2f vetor)

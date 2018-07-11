@@ -76,18 +76,25 @@ void ofApp::bullet_update(float deltaTime)
 {
   for (int i = 0; i < bullets.size(); i++)
   {
-    bullets[i].update(deltaTime);
+    bullets[i].update(deltaTime, hero->vectorMouseHero());
 
     if (hero->checkCanShoo())
     {
-      bullets[i].impulso(hero->onLeft);
+      bullets[i].impulso(hero->onLeft, hero->angle);
     }
 
-    if (bullets[i].colidiu())
+    int arrayTileX = ((bullets[i].position.x + bullets[i].sprite.getWidth()) / 40) * 2.5;
+    int arrayTileY = ((bullets[i].position.y + bullets[i].sprite.getHeight()) / 40) * 2.5;
+
+    if (bullets[i].colidiu(fase1->leve1[arrayTileY][arrayTileX]))
     {
       std::cout << "foi" << std::endl;
       bullets.erase(bullets.begin() + i);
       hero->canshoot = true;
+
+      if (hero->bomb)
+      {
+      }
     }
     else
     {
@@ -98,7 +105,6 @@ void ofApp::bullet_update(float deltaTime)
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key)
 {
-  //std::cout << key << std::endl;
   if (gameState == "game")
   {
     if (key == OF_KEY_LEFT)
@@ -176,10 +182,8 @@ void ofApp::keyPressed(int key)
 
     if (key == 113)
     {
-      //Bala b;
       hero->is_Q_press = true;
       hero->bomb = true;
-      //code here
       if (hero->onLeft)
       {
         hero->setNewAnimation("DINAMYT_LEFT", 1, 1);
@@ -189,14 +193,6 @@ void ofApp::keyPressed(int key)
       {
         hero->setNewAnimation("DINAMYT_RIGHT", 1, 1);
       }
-
-      /* b.setup("images/DINAMYT/0.png", true, hero->getPosition(), hero->getSpeed(), 'B');
-      hero->tryOne = true;
-
-      if (hero->checkCanShoo())
-      {
-        bullets.push_back(b);
-      } */
     }
   }
 }
@@ -275,35 +271,35 @@ void ofApp::keyReleased(int key)
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y)
 {
-  moused.set(x, y);
-  mouseRelacaoMundo = camera->posicaoRelacaoMundo(moused);
-  hero->movedMouse(mouseRelacaoMundo.x, mouseRelacaoMundo.y);
-
-  ofVec2f positionHero = hero->getPosition();
-
-  if (hero->bomb)
+  if (gameState == "game")
   {
+    moused.set(x, y);
+    mouseRelacaoMundo = camera->posicaoRelacaoMundo(moused);
+    hero->movedMouse(mouseRelacaoMundo.x, mouseRelacaoMundo.y);
 
-    if (mouseRelacaoMundo.x > positionHero.x)
+    ofVec2f positionHero = hero->getPosition();
+
+    if (hero->bomb)
     {
-      hero->onRight = true;
-      hero->onLeft = false;
-      hero->is_right_press = true;
-      hero->setNewAnimation("DINAMYT_RIGHT", 1, 1);
-      hero->tryOne = true;
-    }
 
-    if (mouseRelacaoMundo.x < positionHero.x)
-    {
-      //std::cout << "aqui" << std::endl;
-      hero->onLeft = true;
-      hero->onRight = false;
-      hero->is_left_press = true;
-      hero->setNewAnimation("DINAMYT_LEFT", 1, 1);
-      hero->tryOne = true;
-    }
+      if (mouseRelacaoMundo.x > positionHero.x)
+      {
+        hero->onRight = true;
+        hero->onLeft = false;
+        hero->setNewAnimation("DINAMYT_RIGHT", 1, 1);
+        hero->tryOne = true;
+      }
 
-    hero->tryOne = false;
+      if (mouseRelacaoMundo.x < positionHero.x)
+      {
+        hero->onLeft = true;
+        hero->onRight = false;
+        hero->setNewAnimation("DINAMYT_LEFT", 1, 1);
+        hero->tryOne = true;
+      }
+
+      hero->tryOne = false;
+    }
   }
 }
 
@@ -315,16 +311,19 @@ void ofApp::mouseDragged(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-  if (hero->bomb)
+  if (gameState == "game")
   {
-    Bala b;
-    b.setup("images/DINAMYT/0.png", true, hero->getPosition(), hero->getSpeed(), 'B');
-    hero->tryOne = true;
-
-    if (hero->checkCanShoo())
+    if (hero->bomb)
     {
-      std::cout << "aqui" << std::endl;
-      bullets.push_back(b);
+      Bala b;
+      b.setup("images/DINAMYT/0.png", true, hero->getPosition(), hero->getSpeed(), 'B');
+      hero->tryOne = true;
+
+      if (hero->checkCanShoo())
+      {
+        std::cout << "aqui" << std::endl;
+        bullets.push_back(b);
+      }
     }
   }
 }
@@ -332,23 +331,21 @@ void ofApp::mousePressed(int x, int y, int button)
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button)
 {
-  hero->tryOne = false;
-
-  /* hero->is_Q_press = false;
-  hero->tryOne = false;
-
-  if (hero->onRight)
+  if (gameState == "game")
   {
-    hero->is_right_press = false;
-    hero->setNewAnimation("IDDLE_RIGHT", 4, 10);
-  }
+    hero->bomb = false;
+    hero->tryOne = false;
 
-  if (hero->onLeft)
-  {
-    hero->is_right_press = false;
-    hero->setNewAnimation("IDDLE_LEFT", 4, 10);
+    if (hero->onRight)
+    {
+      hero->setNewAnimation("IDDLE_RIGHT", 1, 1);
+    }
+
+    if (hero->onLeft)
+    {
+      hero->setNewAnimation("IDDLE_LEFT", 4, 10);
+    }
   }
-  hero->bomb = false; */
 }
 
 //--------------------------------------------------------------
