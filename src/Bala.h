@@ -10,15 +10,18 @@ private:
 	bool fromPlayer;
 	ofVec2f momentum;
 	float mass;
-	char _tipo;
 	enum tipos
 	{
 		A = 65,
-		B = 'B'
+		B = 'B',
+		E = 'E'
 	};
 	ofVec2f gravidade;
 
 public:
+	bool paraAnimation = false;
+	bool tryOnemoreTime = true;
+	char _tipo;
 	ofImage sprite;
 	ofVec2f position;
 	float width;

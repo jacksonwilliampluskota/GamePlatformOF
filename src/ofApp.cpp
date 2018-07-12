@@ -88,18 +88,32 @@ void ofApp::bullet_update(float deltaTime)
 
     if (bullets[i].colidiu(fase1->leve1[arrayTileY][arrayTileX]))
     {
-      std::cout << "foi" << std::endl;
-      bullets.erase(bullets.begin() + i);
-      hero->canshoot = true;
 
-      if (hero->bomb)
+      if (bullets[i]._tipo == 'B' || bullets[i]._tipo == 'E')
       {
         //continuar aqui
+        bullets[i]._tipo = 'E';
+      }
+      else
+      {
+        std::cout << "foi" << std::endl;
+        bullets.erase(bullets.begin() + i);
+        hero->canshoot = true;
       }
     }
     else
     {
       hero->shoot();
+    }
+
+    if (bullets[i]._tipo == 'E')
+    {
+      if (bullets[i].paraAnimation)
+      {
+        std::cout << "foi" << std::endl;
+        bullets.erase(bullets.begin() + i);
+        hero->canshoot = true;
+      }
     }
   }
 }

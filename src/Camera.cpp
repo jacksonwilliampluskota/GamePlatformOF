@@ -40,7 +40,6 @@ void Camera::update(ofVec2f positionHero)
 
 ofVec4f Camera::posicaoRelacaoMundo(ofVec2f positionObject)
 {
-
 	ofVec4f objRelacaoMundo;
 	objRelacaoMundo.set(positionObject.x, positionObject.y, 0, 1);
 	objRelacaoMundo = objRelacaoMundo * view.getInverse();

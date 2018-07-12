@@ -1,8 +1,10 @@
 #include "Bala.h"
+#include "Animation.h"
 
 #include <stdio.h>
 
 using namespace std;
+Animation *animationBullet;
 
 Bala::Bala()
 {
@@ -30,6 +32,9 @@ void Bala::setup(string path, bool f_p, ofVec2f _position, float s, char tipo)
 	momentum.set(0, 0);
 	mass = 10;
 	gravidade.set(0, 60);
+
+	animationBullet = new Animation();
+	animationBullet->setup("EXPLOSION", 8, 8);
 }
 
 void Bala::update(float deltaTime, ofVec2f vecmouseGet)
@@ -49,7 +54,7 @@ void Bala::update(float deltaTime, ofVec2f vecmouseGet)
 		momentum += accelSecs;
 	}
 
-	cout << _tipo << endl;
+	//cout << _tipo << endl;
 	if (_tipo == B)
 	{
 		ofVec2f forces;
@@ -64,12 +69,37 @@ void Bala::update(float deltaTime, ofVec2f vecmouseGet)
 		position += (momentum + accelSecs) * deltaTime;
 		momentum += accelSecs;
 	}
+
+	if (_tipo == E)
+	{
+		momentum.y = 0;
+	}
 }
 
 void Bala::draw()
 {
-	ofTranslate(position.x, position.y);
-	sprite.draw(0, 0);
+
+	if (_tipo != E)
+	{
+		ofTranslate(position.x, position.y);
+		sprite.draw(0, 0);
+	}
+	else
+	{
+		if (tryOnemoreTime)
+		{
+			sprite.clear();
+		}
+
+		animationBullet->draw(position.x, position.y);
+		tryOnemoreTime = false;
+
+		//cout << animationBullet->imageno << endl;
+		if (animationBullet->imageno == 7)
+		{
+			paraAnimation = true;
+		}
+	}
 }
 
 void Bala::impulso(bool heroLeft, float angleCanhao)
@@ -99,6 +129,7 @@ void Bala::impulso(bool heroLeft, float angleCanhao)
 bool Bala::colidiu(int tile)
 {
 	//colide com bordas
+
 	if (ofGetWidth() + position.x < 0 || position.x + width > ofGetWindowWidth())
 		return true;
 
