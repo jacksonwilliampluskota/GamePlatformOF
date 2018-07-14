@@ -13,7 +13,6 @@ private:
 	float speed = 10;
 	float maxSpeed = 40;
 	bool pulando;
-	int vidas;
 	int tiles[40][40];
 	int type;
 	string state = "IDDLE_RIGHT";
@@ -23,12 +22,14 @@ private:
 	ofImage imagemseta;
 
 public:
+	int vidas = 3;
 	float angle;
-	bool is_left_press, is_right_press, is_up_press, is_down_press, is_space_press, is_Q_press;
+	bool is_left_press, is_right_press, is_up_press, is_down_press, is_space_press, is_Q_press, is_E_press;
 	bool tryOne = false;
 	bool onLeft = false, onRight = true;
 	bool canshoot = true;
 	bool bomb = false;
+	bool boomerang = false;
 	ofVec2f position;
 	Hero();
 	void setup(string path, float x, float y, int level[][40]);
@@ -44,6 +45,8 @@ public:
 	ofVec2f vectorMouseHero();
 	void getAngle(ofVec2f vetor);
 	float toDegrees(float gd);
+	bool colidiuEnemy(int width, int height, ofVec2f outraPosicao, int minhaWidth, int minhaHeight);
+	void dano();
 	~Hero();
 };
 

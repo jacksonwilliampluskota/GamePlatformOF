@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Bala.h"
 #include "level1.h"
+#include "Enemy.h"
 #include <string>
 #include <stdio.h>
 
@@ -12,6 +13,7 @@ World *mundo;
 Hero *hero;
 Camera *camera;
 level1 *fase1;
+Enemy *enemy1;
 ofImage bg;
 vector<Bala> bullets;
 ofVec2f moused;
@@ -25,6 +27,8 @@ void ofApp::setup()
   fase1->setup();
   hero = new Hero();
   hero->setup("images/body.png", 170, 550, fase1->leve1);
+  enemy1 = new Enemy();
+  enemy1->setup("images/body.png", 370, 550, fase1->leve1);
   camera = new Camera();
   camera->setup(hero->getPosition());
   bg.load("images/download.jpg");
@@ -40,6 +44,25 @@ void ofApp::update()
   {
     camera->update(hero->getPosition());
     hero->update(ofGetLastFrameTime());
+    enemy1->update(ofGetLastFrameTime());
+
+    if (hero->colidiuEnemy(16, 16, enemy1->getPosition(), 12, 18))
+    {
+      std::cout << "colidiu com enemy 1" << endl;
+
+      hero->dano();
+
+      if (hero->vidas <= 0)
+      {
+        gameState = "end";
+      }
+    }
+
+    if (enemy1->vidas <= 0)
+    {
+      enemy1->setMorte();
+    }
+
     bullet_update(ofGetLastFrameTime());
   }
   else if (gameState == "end")
@@ -61,6 +84,7 @@ void ofApp::draw()
     fase1->draw();
     //bg.draw(100, 100);
     hero->draw();
+    enemy1->draw();
     for (int i = 0; i < bullets.size(); i++)
     {
       bullets[i].draw();
@@ -106,13 +130,58 @@ void ofApp::bullet_update(float deltaTime)
       hero->shoot();
     }
 
+    if (bullets[i]._tipo == 'A')
+    {
+      if (bullets[i].colidiuExplosao(16, 16, enemy1->getPosition(), 7, 4))
+      {
+        enemy1->dano(bullets[i]._tipo);
+
+        std::cout << "foi" << std::endl;
+        bullets.erase(bullets.begin() + i);
+        hero->canshoot = true;
+      }
+    }
+
     if (bullets[i]._tipo == 'E')
     {
+      if (bullets[i].colidiuExplosao(12, 18, hero->getPosition(), 32, 32))
+      {
+        gameState = "end";
+      }
+
+      if (bullets[i].colidiuExplosao(16, 16, enemy1->getPosition(), 32, 32))
+      {
+        enemy1->setMorte();
+      }
+
       if (bullets[i].paraAnimation)
       {
         std::cout << "foi" << std::endl;
         bullets.erase(bullets.begin() + i);
         hero->canshoot = true;
+      }
+    }
+
+    if (bullets[i]._tipo == 'G')
+    {
+      if (bullets[i].colidiuExplosao(16, 16, enemy1->getPosition(), 6, 4))
+      {
+        enemy1->dano(bullets[i]._tipo);
+
+        std::cout << "foi" << std::endl;
+        bullets.erase(bullets.begin() + i);
+        hero->canshoot = true;
+      }
+
+      if (bullets[i].volta)
+      {
+        //-----------------------------Alt e larg hero             alt e larg da bala
+        if (bullets[i].colidiuExplosao(12, 18, hero->getPosition(), 6, 4))
+        {
+          std::cout << "foi" << std::endl;
+          bullets.erase(bullets.begin() + i);
+          hero->canshoot = true;
+        }
       }
     }
   }
@@ -191,6 +260,7 @@ void ofApp::keyPressed(int key)
 
       if (hero->checkCanShoo())
       {
+        std::cout << "deu para atira" << endl;
         bullets.push_back(b);
       }
     }
@@ -207,6 +277,29 @@ void ofApp::keyPressed(int key)
       if (hero->onRight)
       {
         hero->setNewAnimation("DINAMYT_RIGHT", 1, 1);
+      }
+    }
+
+    if (key == 101 && !hero->bomb)
+    {
+      Bala b;
+      hero->is_E_press = true;
+      hero->boomerang = true;
+      if (hero->onLeft)
+      {
+        hero->setNewAnimation("BOW_LEFT", 5, 3);
+        b.setup("BOOMERANG", true, hero->getPosition(), hero->getSpeed(), 'G');
+      }
+
+      if (hero->onRight)
+      {
+        hero->setNewAnimation("BOW_RIGHT", 5, 3);
+        b.setup("BOOMERANG", true, hero->getPosition(), hero->getSpeed(), 'G');
+      }
+
+      if (hero->checkCanShoo())
+      {
+        bullets.push_back(b);
       }
     }
   }
@@ -269,6 +362,23 @@ void ofApp::keyReleased(int key)
     {
       hero->is_space_press = false;
       hero->tryOne = false;
+
+      if (hero->onRight)
+      {
+        hero->setNewAnimation("IDDLE_RIGHT", 1, 1);
+      }
+
+      if (hero->onLeft)
+      {
+        hero->setNewAnimation("IDDLE_LEFT", 4, 10);
+      }
+    }
+
+    if (key == 101 && !hero->bomb)
+    {
+      hero->is_E_press = false;
+      hero->tryOne = false;
+      hero->boomerang = false;
 
       if (hero->onRight)
       {

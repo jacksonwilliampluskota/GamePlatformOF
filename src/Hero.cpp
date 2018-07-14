@@ -37,6 +37,7 @@ void Hero::setup(string path, float x, float y, int level[][40])
 	is_down_press = false;
 	is_space_press = false;
 	is_Q_press = false;
+	is_E_press = false;
 }
 
 void Hero::update(float deltaTime)
@@ -48,11 +49,21 @@ void Hero::update(float deltaTime)
 	forces = forces * speed;
 
 	acceleration = forces / mass;
-	int arrayTileX = ((position.x + sprite.getWidth()) / 40) * 2.5;
+	int arrayTileX;
+	if (onRight)
+	{
+		arrayTileX = ((position.x + sprite.getWidth()) / 40) * 2.5;
+	}
+	else
+	{
+		arrayTileX = ((position.x - sprite.getWidth()) / 40) * 2.5;
+	}
+
 	int arrayTileY = ((position.y + sprite.getHeight()) / 40) * 2.5;
 
 	type = tiles[arrayTileY][arrayTileX];
-	if (type == 16)
+
+	if (type == 16 || type == 18)
 	{
 		if (!pulando)
 		{
@@ -97,14 +108,14 @@ void Hero::update(float deltaTime)
 
 	if (!bomb)
 	{
-		if (is_left_press)
+		if (is_left_press && type != 18)
 		{
 			ofVec2f andar;
 			andar.set(50, 0);
 			momentum -= andar / mass;
 		}
 
-		if (is_right_press)
+		if (is_right_press && type != 18)
 		{
 			ofVec2f andar;
 			andar.set(50, 0);
@@ -151,7 +162,7 @@ void Hero::jump()
 {
 	momentum.set(0, 0);
 	ofVec2f impulse;
-	impulse.set(0, -1000);
+	impulse.set(0, -1200);
 	momentum.y += impulse.y / mass;
 }
 
@@ -209,6 +220,37 @@ float Hero::toDegrees(float gd)
 {
 	return gd * 180 / PI;
 }
+
+bool Hero::colidiuEnemy(int width, int height, ofVec2f outraPosicao, int minhaWidth, int minhaHeight)
+{
+
+	if (position.x < outraPosicao.x + width &&
+			outraPosicao.x < position.x + minhaWidth &&
+			position.y < outraPosicao.y + height &&
+			outraPosicao.y < position.y + minhaHeight)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void Hero::dano()
+{
+	momentum.set(0, 0);
+	ofVec2f impulse;
+	if (onRight)
+		impulse.set(-35000, 0);
+	if (onLeft)
+		impulse.set(35000, 0);
+
+	momentum += impulse / mass;
+
+	vidas -= 1;
+	cout << "afastou" << endl;
+	cout << vidas << endl;
+}
+
 Hero::~Hero()
 {
 }

@@ -24,6 +24,7 @@ void level1::setup()
 	tiles[15].load("images/bg15.png");
 	tiles[16].load("images/chao.png");
 	tiles[17].load("images/lado1.png");
+	tiles[18].load("images/16.png");
 }
 
 void level1::draw()

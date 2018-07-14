@@ -14,11 +14,15 @@ private:
 	{
 		A = 65,
 		B = 'B',
-		E = 'E'
+		E = 'E',
+		G = 'G'
 	};
 	ofVec2f gravidade;
+	ofVec2f positionInitBoo;
+	bool vai = false;
 
 public:
+	bool volta = false;
 	bool paraAnimation = false;
 	bool tryOnemoreTime = true;
 	char _tipo;
@@ -31,6 +35,7 @@ public:
 	void draw();
 	void impulso(bool heroLeft, float angleCanhao);
 	bool colidiu(int tile);
+	bool colidiuExplosao(int width, int height, ofVec2f outraPosicao, int minhaWidth, int minhaHeight);
 	~Bala();
 };
 
