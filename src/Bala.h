@@ -31,7 +31,7 @@ public:
 	float width;
 	Bala();
 	void setup(string path, bool f_p, ofVec2f _position, float s, char tipo);
-	void update(float deltaTime, ofVec2f vecmouseGet);
+	void update(float deltaTime, ofVec2f positionHero, bool onLeft);
 	void draw();
 	void impulso(bool heroLeft, float angleCanhao);
 	bool colidiu(int tile);

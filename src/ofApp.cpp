@@ -44,7 +44,7 @@ void ofApp::update()
   {
     camera->update(hero->getPosition());
     hero->update(ofGetLastFrameTime());
-    enemy1->update(ofGetLastFrameTime());
+    enemy1->update(ofGetLastFrameTime(), hero->getPosition());
 
     if (hero->colidiuEnemy(16, 16, enemy1->getPosition(), 12, 18))
     {
@@ -100,7 +100,7 @@ void ofApp::bullet_update(float deltaTime)
 {
   for (int i = 0; i < bullets.size(); i++)
   {
-    bullets[i].update(deltaTime, hero->vectorMouseHero());
+    bullets[i].update(deltaTime, hero->getPosition(), hero->onLeft);
 
     if (hero->checkCanShoo())
     {

@@ -30,8 +30,12 @@ void Enemy::setup(string path, float x, float y, int level[][40])
   gravidade.set(0, 100);
 }
 
-void Enemy::update(float deltaTime)
+void Enemy::update(float deltaTime, ofVec2f positionhero)
 {
+
+  /* Pego a posição atual do heroi crio um vetor da distancia do heroi com enimigo tiro a magnitude dele
+  e pego um media dessa magnitude e marco um distancia
+  dai se tiver numa distancia menor que a magnitude o enimigo anda em direçao ao heroi utilizando a normalizada desse vetor pra seguir se o heroi tiver numa magnitude maior do que é marcado o enimigo para  */
 
   if (!morreu)
   {
@@ -39,7 +43,52 @@ void Enemy::update(float deltaTime)
     ofVec2f acceleration;
     ofVec2f accelSecs;
 
-    forces = forces * speed;
+    distanciaHeroEnemy = positionhero - position;
+    int mag = magnitudeSqr(distanciaHeroEnemy);
+    //cout << mag << endl;
+
+    if (mag < 4500)
+    {
+      if (onLeft)
+      {
+        forces += distanciaHeroEnemy.normalize() * speed;
+
+        if (tryOne)
+        {
+          setNewAnimation("ENEMY_LEFT", 5, 10);
+          tryOne = false;
+        }
+
+        if (forces.x >= 0)
+        {
+          onLeft = false;
+          onRight = true;
+          tryOne = true;
+        }
+      }
+
+      if (onRight)
+      {
+        forces += distanciaHeroEnemy.normalize() * speed;
+
+        if (tryOne)
+        {
+          setNewAnimation("ENEMY_RIGHT", 5, 10);
+          tryOne = false;
+        }
+
+        if (forces.x <= 0)
+        {
+          onLeft = true;
+          onRight = false;
+          tryOne = true;
+        }
+      }
+    }
+    else
+    {
+      momentum.x = 0;
+    }
 
     acceleration = forces / mass;
     int arrayTileX = ((position.x + sprite.getWidth()) / 40) * 2.5;
@@ -68,47 +117,12 @@ void Enemy::update(float deltaTime)
     {
       momentum.x = maxSpeed * -1;
     }
-
-    if (onLeft)
-    {
-      ofVec2f andar;
-      andar.set(50, 0);
-      momentum -= andar / mass;
-
-      if (tryOne)
-      {
-        setNewAnimation("ENEMY_LEFT", 5, 10);
-        tryOne = false;
-      }
-
-      if (position.x <= positionInit.x - 50)
-      {
-        onLeft = false;
-        onRight = true;
-        tryOne = true;
-      }
-    }
-
-    if (onRight)
-    {
-      ofVec2f andar;
-      andar.set(50, 0);
-      momentum += andar / mass;
-
-      if (tryOne)
-      {
-        setNewAnimation("ENEMY_RIGHT", 5, 10);
-        tryOne = false;
-      }
-
-      if (position.x >= positionInit.x + 50)
-      {
-        onLeft = true;
-        onRight = false;
-        tryOne = true;
-      }
-    }
   }
+}
+
+int Enemy::magnitudeSqr(ofVec2f vetor)
+{
+  return vetor.x * vetor.x + vetor.y * vetor.y;
 }
 
 void Enemy::draw()

@@ -48,7 +48,16 @@ void Bala::setup(string path, bool f_p, ofVec2f _position, float s, char tipo)
 	width = sprite.getWidth();
 
 	momentum.set(0, 0);
-	mass = 10;
+
+	if (_tipo == G)
+	{
+		mass = 1;
+	}
+	else
+	{
+		mass = 10;
+	}
+
 	gravidade.set(0, 60);
 
 	if (_tipo != G)
@@ -58,7 +67,7 @@ void Bala::setup(string path, bool f_p, ofVec2f _position, float s, char tipo)
 	}
 }
 
-void Bala::update(float deltaTime, ofVec2f vecmouseGet)
+void Bala::update(float deltaTime, ofVec2f positionHero, bool onLeft)
 {
 
 	if (_tipo == A)
@@ -67,7 +76,7 @@ void Bala::update(float deltaTime, ofVec2f vecmouseGet)
 		ofVec2f acceleration;
 		ofVec2f accelSecs;
 
-		forces += vecmouseGet.normalize() * speed;
+		forces = forces * speed;
 		acceleration = forces / mass;
 
 		accelSecs = acceleration * deltaTime;
@@ -102,16 +111,26 @@ void Bala::update(float deltaTime, ofVec2f vecmouseGet)
 		ofVec2f acceleration;
 		ofVec2f accelSecs;
 
-		forces += vecmouseGet.normalize() * speed;
-		acceleration = forces / mass;
+		ofVec2f vecAqui;
 
-		accelSecs = acceleration * deltaTime;
-		position += (momentum + accelSecs) * deltaTime;
-		momentum += accelSecs;
+		if (onLeft)
+		{
+			vecAqui.set(positionInitBoo.x - 100, positionInitBoo.y);
+		}
+		else
+		{
+			vecAqui.set(positionInitBoo.x + 100, positionInitBoo.y);
+		}
+
+		ofVec2f newVec;
 
 		if (!volta && vai)
 		{
-			if (position.x >= positionInitBoo.x + 100 || position.x <= positionInitBoo.x - 100)
+			newVec = vecAqui - position;
+
+			float mag = newVec.x * newVec.x + newVec.y * newVec.y;
+			//cout << mag << endl;
+			if (mag <= 10 || mag >= 10100)
 			{
 				volta = true;
 				vai = false;
@@ -120,9 +139,22 @@ void Bala::update(float deltaTime, ofVec2f vecmouseGet)
 
 		if (volta && !vai)
 		{
-			momentum.x = momentum.x * -1;
-			vai = true;
+			//momentum.x = momentum.x * -1;
+
+			newVec = positionHero - position;
+
+			float mag = newVec.x * newVec.x + newVec.y * newVec.y;
+			cout << mag << endl;
+
+			//vai = true;
 		}
+
+		forces += newVec.normalize() * speed;
+		acceleration = forces / mass;
+
+		accelSecs = acceleration * deltaTime;
+		position += (momentum + accelSecs) * deltaTime;
+		momentum += accelSecs;
 	}
 }
 
@@ -185,10 +217,10 @@ void Bala::impulso(bool heroLeft, float angleCanhao)
 	{
 		momentum.set(0, 0);
 		ofVec2f impulse;
-		impulse.set(900, 0);
+		impulse.set(25, 0);
 		if (heroLeft)
 		{
-			impulse.set(-900, 0);
+			impulse.set(-25, 0);
 		}
 
 		momentum += impulse / mass;
