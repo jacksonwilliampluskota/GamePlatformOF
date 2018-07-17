@@ -128,9 +128,9 @@ void Bala::update(float deltaTime, ofVec2f positionHero, bool onLeft)
 		{
 			newVec = vecAqui - position;
 
-			float mag = newVec.x * newVec.x + newVec.y * newVec.y;
+			//float mag = newVec.x * newVec.x + newVec.y * newVec.y;
 			//cout << mag << endl;
-			if (mag <= 10 || mag >= 10100)
+			if (position.x >= positionInitBoo.x + 25 || position.x <= positionInitBoo.x - 25)
 			{
 				volta = true;
 				vai = false;
@@ -217,10 +217,10 @@ void Bala::impulso(bool heroLeft, float angleCanhao)
 	{
 		momentum.set(0, 0);
 		ofVec2f impulse;
-		impulse.set(25, 0);
+		impulse.set(30, 0);
 		if (heroLeft)
 		{
-			impulse.set(-25, 0);
+			impulse.set(-30, 0);
 		}
 
 		momentum += impulse / mass;

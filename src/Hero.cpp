@@ -49,14 +49,16 @@ void Hero::update(float deltaTime)
 	forces = forces * speed;
 
 	acceleration = forces / mass;
-	int arrayTileX;
+	int arrayTileX = 0;
+
 	if (onRight)
 	{
 		arrayTileX = ((position.x + sprite.getWidth()) / 40) * 2.5;
 	}
-	else
+
+	if (onLeft)
 	{
-		arrayTileX = ((position.x - sprite.getWidth()) / 40) * 2.5;
+		arrayTileX = (position.x / 40) * 2.5;
 	}
 
 	int arrayTileY = ((position.y + sprite.getHeight()) / 40) * 2.5;
@@ -108,18 +110,26 @@ void Hero::update(float deltaTime)
 
 	if (!bomb)
 	{
-		if (is_left_press && type != 18)
-		{
-			ofVec2f andar;
-			andar.set(50, 0);
-			momentum -= andar / mass;
-		}
 
-		if (is_right_press && type != 18)
+		if (type != 18)
 		{
-			ofVec2f andar;
-			andar.set(50, 0);
-			momentum += andar / mass;
+			if (is_left_press)
+			{
+				ofVec2f andar;
+				andar.set(50, 0);
+				momentum -= andar / mass;
+			}
+
+			if (is_right_press)
+			{
+				ofVec2f andar;
+				andar.set(50, 0);
+				momentum += andar / mass;
+			}
+		}
+		else
+		{
+			momentum.x = 0;
 		}
 
 		if (is_up_press)

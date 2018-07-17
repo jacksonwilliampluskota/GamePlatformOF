@@ -353,7 +353,8 @@ obj/linux64/Release/src/ofApp.o: \
  /home/jackson/Documents/plataformGame/src/Camera.h \
  /home/jackson/Documents/plataformGame/src/Bala.h \
  /home/jackson/Documents/plataformGame/src/level1.h \
- /home/jackson/Documents/plataformGame/src/Enemy.h
+ /home/jackson/Documents/plataformGame/src/Enemy.h \
+ /home/jackson/Documents/plataformGame/src/EnemyTiro.h
 
 /home/jackson/Documents/plataformGame/src/ofApp.h:
 
@@ -1096,3 +1097,5 @@ obj/linux64/Release/src/ofApp.o: \
 /home/jackson/Documents/plataformGame/src/level1.h:
 
 /home/jackson/Documents/plataformGame/src/Enemy.h:
+
+/home/jackson/Documents/plataformGame/src/EnemyTiro.h:

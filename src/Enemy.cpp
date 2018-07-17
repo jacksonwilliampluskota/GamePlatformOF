@@ -33,10 +33,6 @@ void Enemy::setup(string path, float x, float y, int level[][40])
 void Enemy::update(float deltaTime, ofVec2f positionhero)
 {
 
-  /* Pego a posição atual do heroi crio um vetor da distancia do heroi com enimigo tiro a magnitude dele
-  e pego um media dessa magnitude e marco um distancia
-  dai se tiver numa distancia menor que a magnitude o enimigo anda em direçao ao heroi utilizando a normalizada desse vetor pra seguir se o heroi tiver numa magnitude maior do que é marcado o enimigo para  */
-
   if (!morreu)
   {
     ofVec2f forces;
@@ -49,6 +45,13 @@ void Enemy::update(float deltaTime, ofVec2f positionhero)
 
     if (mag < 4500)
     {
+
+      if (!impulsar)
+      {
+        impulso(onLeft);
+        impulsar = true;
+      }
+
       if (onLeft)
       {
         forces += distanciaHeroEnemy.normalize() * speed;
@@ -88,6 +91,7 @@ void Enemy::update(float deltaTime, ofVec2f positionhero)
     else
     {
       momentum.x = 0;
+      impulsar = false;
     }
 
     acceleration = forces / mass;
@@ -95,7 +99,7 @@ void Enemy::update(float deltaTime, ofVec2f positionhero)
     int arrayTileY = ((position.y + sprite.getHeight()) / 40) * 2.5;
 
     type = tiles[arrayTileY][arrayTileX];
-    if (type == 16)
+    if (type == 16 || type == 18)
     {
       momentum.y = 0;
     }
@@ -176,6 +180,19 @@ void Enemy::dano(char tipo)
 
   cout << "retirou vida do enemy" << endl;
   cout << vidas << endl;
+}
+
+void Enemy::impulso(bool onLeft)
+{
+  momentum.set(0, 0);
+  ofVec2f impulse;
+  impulse.set(15, 0);
+  if (onLeft)
+  {
+    impulse.set(-15, 0);
+  }
+
+  momentum += impulse / mass;
 }
 
 Enemy::~Enemy()

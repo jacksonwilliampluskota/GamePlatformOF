@@ -5,6 +5,7 @@
 #include "Bala.h"
 #include "level1.h"
 #include "Enemy.h"
+#include "EnemyTiro.h"
 #include <string>
 #include <stdio.h>
 
@@ -14,6 +15,7 @@ Hero *hero;
 Camera *camera;
 level1 *fase1;
 Enemy *enemy1;
+EnemyTiro *enemy2;
 ofImage bg;
 vector<Bala> bullets;
 ofVec2f moused;
@@ -28,7 +30,9 @@ void ofApp::setup()
   hero = new Hero();
   hero->setup("images/body.png", 170, 550, fase1->leve1);
   enemy1 = new Enemy();
-  enemy1->setup("images/body.png", 370, 550, fase1->leve1);
+  enemy1->setup("images/body_enemy1.png", 370, 550, fase1->leve1);
+  enemy2 = new EnemyTiro();
+  enemy2->setup("images/body_enemy2.png", 470, 550, fase1->leve1);
   camera = new Camera();
   camera->setup(hero->getPosition());
   bg.load("images/download.jpg");
@@ -45,8 +49,21 @@ void ofApp::update()
     camera->update(hero->getPosition());
     hero->update(ofGetLastFrameTime());
     enemy1->update(ofGetLastFrameTime(), hero->getPosition());
+    enemy2->update(ofGetLastFrameTime(), hero->getPosition());
 
     if (hero->colidiuEnemy(16, 16, enemy1->getPosition(), 12, 18))
+    {
+      std::cout << "colidiu com enemy 1" << endl;
+
+      hero->dano();
+
+      if (hero->vidas <= 0)
+      {
+        gameState = "end";
+      }
+    }
+
+    if (hero->colidiuEnemy(16, 16, enemy2->getPosition(), 12, 18))
     {
       std::cout << "colidiu com enemy 1" << endl;
 
@@ -61,6 +78,11 @@ void ofApp::update()
     if (enemy1->vidas <= 0)
     {
       enemy1->setMorte();
+    }
+
+    if (enemy2->vidas <= 0)
+    {
+      enemy2->setMorte();
     }
 
     bullet_update(ofGetLastFrameTime());
@@ -85,6 +107,7 @@ void ofApp::draw()
     //bg.draw(100, 100);
     hero->draw();
     enemy1->draw();
+    enemy2->draw();
     for (int i = 0; i < bullets.size(); i++)
     {
       bullets[i].draw();
@@ -140,6 +163,15 @@ void ofApp::bullet_update(float deltaTime)
         bullets.erase(bullets.begin() + i);
         hero->canshoot = true;
       }
+
+      if (bullets[i].colidiuExplosao(16, 16, enemy2->getPosition(), 7, 4))
+      {
+        enemy2->dano(bullets[i]._tipo);
+
+        std::cout << "foi" << std::endl;
+        bullets.erase(bullets.begin() + i);
+        hero->canshoot = true;
+      }
     }
 
     if (bullets[i]._tipo == 'E')
@@ -152,6 +184,11 @@ void ofApp::bullet_update(float deltaTime)
       if (bullets[i].colidiuExplosao(16, 16, enemy1->getPosition(), 32, 32))
       {
         enemy1->setMorte();
+      }
+
+      if (bullets[i].colidiuExplosao(16, 16, enemy2->getPosition(), 32, 32))
+      {
+        enemy2->setMorte();
       }
 
       if (bullets[i].paraAnimation)
@@ -167,6 +204,15 @@ void ofApp::bullet_update(float deltaTime)
       if (bullets[i].colidiuExplosao(16, 16, enemy1->getPosition(), 6, 4))
       {
         enemy1->dano(bullets[i]._tipo);
+
+        std::cout << "foi" << std::endl;
+        bullets.erase(bullets.begin() + i);
+        hero->canshoot = true;
+      }
+
+      if (bullets[i].colidiuExplosao(16, 16, enemy2->getPosition(), 6, 4))
+      {
+        enemy2->dano(bullets[i]._tipo);
 
         std::cout << "foi" << std::endl;
         bullets.erase(bullets.begin() + i);

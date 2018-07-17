@@ -15,6 +15,7 @@ private:
 	string state = "ENEMY_LEFT";
 	int qtdAnimation;
 	ofVec2f distanciaHeroEnemy;
+	bool impulsar = false;
 
 public:
 	int vidas = 3;
@@ -33,6 +34,7 @@ public:
 	void setMorte();
 	void dano(char tipo);
 	int magnitudeSqr(ofVec2f vetor);
+	void impulso(bool onLeft);
 	~Enemy();
 };
 
