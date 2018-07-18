@@ -18,12 +18,15 @@ private:
 	bool impulsar = false;
 
 public:
+	bool campoVisao = false;
 	int vidas = 3;
 	bool tryOne = false;
 	bool onLeft = true, onRight = false;
 	ofVec2f position;
 	ofVec2f positionInit;
 	bool morreu = false;
+	float start_shoot;
+	float shoot_interval;
 	EnemyTiro();
 	void setup(string path, float x, float y, int level[][40]);
 	void update(float deltaTime, ofVec2f positionhero);
@@ -35,6 +38,7 @@ public:
 	void dano(char tipo);
 	int magnitudeSqr(ofVec2f vetor);
 	void impulso(bool onLeft);
+	bool time_to_shoot();
 	~EnemyTiro();
 };
 

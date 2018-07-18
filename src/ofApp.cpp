@@ -79,6 +79,18 @@ void ofApp::update()
     {
       enemy1->setMorte();
     }
+    else
+    {
+
+      if (enemy2->campoVisao)
+      {
+
+        if (enemy2->time_to_shoot())
+        {
+          std::cout << "Atira" << endl;
+        }
+      }
+    }
 
     if (enemy2->vidas <= 0)
     {

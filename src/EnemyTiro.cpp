@@ -12,6 +12,7 @@ EnemyTiro::EnemyTiro()
 
 void EnemyTiro::setup(string path, float x, float y, int level[][40])
 {
+  float max_enemy_shoot_interval = 1.0;
   qtdAnimation = 5;
   animationEnemyTiro->setup(state, qtdAnimation, 10);
   for (int i = 0; i < 40; i++)
@@ -28,10 +29,18 @@ void EnemyTiro::setup(string path, float x, float y, int level[][40])
   positionInit.set(x + sprite.getWidth(), y + sprite.getHeight());
   momentum.set(0, 0);
   gravidade.set(0, 100);
+
+  shoot_interval = 3.0;
+  start_shoot = ofGetElapsedTimef();
 }
 
 void EnemyTiro::update(float deltaTime, ofVec2f positionhero)
 {
+
+  /*
+    enemigo fica parado se entrar no raio do enimigo ele da um tiro
+    a cada tempo enquanto o heroi esta dentro do campo de visao de enimigo
+  */
 
   if (!morreu)
   {
@@ -46,8 +55,9 @@ void EnemyTiro::update(float deltaTime, ofVec2f positionhero)
     int mag = magnitudeSqr(distanciaHeroEnemy);
     //cout << mag << endl;
 
-    if (mag < 4500)
+    if (mag < 6500)
     {
+      campoVisao = true;
 
       if (onLeft)
       {
@@ -72,6 +82,7 @@ void EnemyTiro::update(float deltaTime, ofVec2f positionhero)
     else
     {
       tryOne = true;
+      campoVisao = false;
     }
 
     int arrayTileX = ((position.x + sprite.getWidth()) / 40) * 2.5;
@@ -162,6 +173,17 @@ void EnemyTiro::impulso(bool onLeft)
   }
 
   momentum += impulse / mass;
+}
+
+bool EnemyTiro::time_to_shoot()
+{
+  //cout << ofGetElapsedTimef() - start_shoot << endl;
+  if (ofGetElapsedTimef() - start_shoot > shoot_interval)
+  {
+    start_shoot = ofGetElapsedTimef();
+    return true;
+  }
+  return false;
 }
 
 EnemyTiro::~EnemyTiro()
