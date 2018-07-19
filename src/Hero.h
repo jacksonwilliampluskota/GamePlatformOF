@@ -31,6 +31,8 @@ public:
 	bool bomb = false;
 	bool boomerang = false;
 	ofVec2f position;
+	float start_shoot;
+	float shoot_interval;
 	Hero();
 	void setup(string path, float x, float y, int level[][40]);
 	void update(float deltaTime);

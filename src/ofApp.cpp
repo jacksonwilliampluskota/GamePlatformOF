@@ -46,6 +46,10 @@ void ofApp::update()
   }
   else if (gameState == "game")
   {
+    if (hero->vidas <= 0)
+    {
+      gameState = "end";
+    }
     camera->update(hero->getPosition());
     hero->update(ofGetLastFrameTime());
     enemy1->update(ofGetLastFrameTime(), hero->getPosition());
@@ -79,6 +83,11 @@ void ofApp::update()
     {
       enemy1->setMorte();
     }
+
+    if (enemy2->vidas <= 0)
+    {
+      enemy2->setMorte();
+    }
     else
     {
 
@@ -88,13 +97,13 @@ void ofApp::update()
         if (enemy2->time_to_shoot())
         {
           std::cout << "Atira" << endl;
+          Bala bEnemy;
+          std::cout << enemy2->getPosition() << endl;
+
+          bEnemy.setup("SHOOT_ENEMY2", false, enemy2->getPosition(), enemy2->getSpeed(), 'R');
+          bullets.push_back(bEnemy);
         }
       }
-    }
-
-    if (enemy2->vidas <= 0)
-    {
-      enemy2->setMorte();
     }
 
     bullet_update(ofGetLastFrameTime());
@@ -122,7 +131,9 @@ void ofApp::draw()
     enemy2->draw();
     for (int i = 0; i < bullets.size(); i++)
     {
+      ofPushMatrix();
       bullets[i].draw();
+      ofPopMatrix();
     }
     ofPopMatrix();
   }
@@ -135,111 +146,137 @@ void ofApp::bullet_update(float deltaTime)
 {
   for (int i = 0; i < bullets.size(); i++)
   {
-    bullets[i].update(deltaTime, hero->getPosition(), hero->onLeft);
 
-    if (hero->checkCanShoo())
+    if (bullets[i].fromPlayer)
     {
-      bullets[i].impulso(hero->onLeft, hero->angle);
-    }
-
-    int arrayTileX = ((bullets[i].position.x + bullets[i].sprite.getWidth()) / 40) * 2.5;
-    int arrayTileY = ((bullets[i].position.y + bullets[i].sprite.getHeight()) / 40) * 2.5;
-
-    if (bullets[i].colidiu(fase1->leve1[arrayTileY][arrayTileX]))
-    {
-
-      if (bullets[i]._tipo == 'B' || bullets[i]._tipo == 'E')
+      bullets[i].update(deltaTime, hero->getPosition(), hero->onLeft);
+      if (hero->checkCanShoo())
       {
-        //continuar aqui
-        bullets[i]._tipo = 'E';
+        bullets[i].impulso(hero->onLeft, hero->angle);
       }
-      else
+      int arrayTileX = ((bullets[i].position.x + bullets[i].sprite.getWidth()) / 40) * 2.5;
+      int arrayTileY = ((bullets[i].position.y + bullets[i].sprite.getHeight()) / 40) * 2.5;
+
+      if (bullets[i].colidiu(fase1->leve1[arrayTileY][arrayTileX]))
       {
-        std::cout << "foi" << std::endl;
-        bullets.erase(bullets.begin() + i);
-        hero->canshoot = true;
-      }
-    }
-    else
-    {
-      hero->shoot();
-    }
 
-    if (bullets[i]._tipo == 'A')
-    {
-      if (bullets[i].colidiuExplosao(16, 16, enemy1->getPosition(), 7, 4))
-      {
-        enemy1->dano(bullets[i]._tipo);
-
-        std::cout << "foi" << std::endl;
-        bullets.erase(bullets.begin() + i);
-        hero->canshoot = true;
-      }
-
-      if (bullets[i].colidiuExplosao(16, 16, enemy2->getPosition(), 7, 4))
-      {
-        enemy2->dano(bullets[i]._tipo);
-
-        std::cout << "foi" << std::endl;
-        bullets.erase(bullets.begin() + i);
-        hero->canshoot = true;
-      }
-    }
-
-    if (bullets[i]._tipo == 'E')
-    {
-      if (bullets[i].colidiuExplosao(12, 18, hero->getPosition(), 32, 32))
-      {
-        gameState = "end";
-      }
-
-      if (bullets[i].colidiuExplosao(16, 16, enemy1->getPosition(), 32, 32))
-      {
-        enemy1->setMorte();
-      }
-
-      if (bullets[i].colidiuExplosao(16, 16, enemy2->getPosition(), 32, 32))
-      {
-        enemy2->setMorte();
-      }
-
-      if (bullets[i].paraAnimation)
-      {
-        std::cout << "foi" << std::endl;
-        bullets.erase(bullets.begin() + i);
-        hero->canshoot = true;
-      }
-    }
-
-    if (bullets[i]._tipo == 'G')
-    {
-      if (bullets[i].colidiuExplosao(16, 16, enemy1->getPosition(), 6, 4))
-      {
-        enemy1->dano(bullets[i]._tipo);
-
-        std::cout << "foi" << std::endl;
-        bullets.erase(bullets.begin() + i);
-        hero->canshoot = true;
-      }
-
-      if (bullets[i].colidiuExplosao(16, 16, enemy2->getPosition(), 6, 4))
-      {
-        enemy2->dano(bullets[i]._tipo);
-
-        std::cout << "foi" << std::endl;
-        bullets.erase(bullets.begin() + i);
-        hero->canshoot = true;
-      }
-
-      if (bullets[i].volta)
-      {
-        //-----------------------------Alt e larg hero             alt e larg da bala
-        if (bullets[i].colidiuExplosao(12, 18, hero->getPosition(), 6, 4))
+        if (bullets[i]._tipo == 'B' || bullets[i]._tipo == 'E')
+        {
+          //continuar aqui
+          bullets[i]._tipo = 'E';
+        }
+        else
         {
           std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->canshoot = true;
         }
+      }
+      else
+      {
+        hero->shoot();
+      }
+
+      if (bullets[i]._tipo == 'A')
+      {
+        if (bullets[i].colidiuExplosao(16, 16, enemy1->getPosition(), 7, 4))
+        {
+          enemy1->dano(bullets[i]._tipo);
+
+          std::cout << "foi" << std::endl;
+          bullets.erase(bullets.begin() + i);
+          hero->canshoot = true;
+        }
+
+        if (bullets[i].colidiuExplosao(16, 16, enemy2->getPosition(), 7, 4))
+        {
+          enemy2->dano(bullets[i]._tipo);
+
+          std::cout << "foi" << std::endl;
+          bullets.erase(bullets.begin() + i);
+          hero->canshoot = true;
+        }
+      }
+
+      if (bullets[i]._tipo == 'E')
+      {
+        if (bullets[i].colidiuExplosao(12, 18, hero->getPosition(), 32, 32))
+        {
+          gameState = "end";
+        }
+
+        if (bullets[i].colidiuExplosao(16, 16, enemy1->getPosition(), 32, 32))
+        {
+          enemy1->setMorte();
+        }
+
+        if (bullets[i].colidiuExplosao(16, 16, enemy2->getPosition(), 32, 32))
+        {
+          enemy2->setMorte();
+        }
+
+        if (bullets[i].paraAnimation)
+        {
+          std::cout << "foi" << std::endl;
+          bullets.erase(bullets.begin() + i);
+          hero->canshoot = true;
+        }
+      }
+
+      if (bullets[i]._tipo == 'G')
+      {
+        if (bullets[i].colidiuExplosao(16, 16, enemy1->getPosition(), 6, 4))
+        {
+          enemy1->dano(bullets[i]._tipo);
+
+          std::cout << "foi" << std::endl;
+          bullets.erase(bullets.begin() + i);
+          hero->canshoot = true;
+        }
+
+        if (bullets[i].colidiuExplosao(16, 16, enemy2->getPosition(), 6, 4))
+        {
+          enemy2->dano(bullets[i]._tipo);
+
+          std::cout << "foi" << std::endl;
+          bullets.erase(bullets.begin() + i);
+          hero->canshoot = true;
+        }
+
+        if (bullets[i].volta)
+        {
+          //-----------------------------Alt e larg hero             alt e larg da bala
+          if (bullets[i].colidiuExplosao(12, 18, hero->getPosition(), 6, 4))
+          {
+            std::cout << "foi" << std::endl;
+            bullets.erase(bullets.begin() + i);
+            hero->canshoot = true;
+          }
+        }
+      }
+    }
+    else
+    {
+      bullets[i].update(deltaTime, hero->getPosition(), enemy2->onLeft);
+      bullets[i].impulso(enemy2->onLeft, hero->angle);
+
+      int arrayTileX = ((bullets[i].position.x + bullets[i].sprite.getWidth()) / 40) * 2.5;
+      int arrayTileY = ((bullets[i].position.y + bullets[i].sprite.getHeight()) / 40) * 2.5;
+
+      if (bullets[i]._tipo == 'R')
+      {
+        if (bullets[i].colidiuExplosao(12, 18, hero->getPosition(), 8, 8))
+        {
+          std::cout << "foi" << std::endl;
+          bullets.erase(bullets.begin() + i);
+          hero->vidas -= 2;
+        }
+      }
+
+      if (bullets[i].colidiu(fase1->leve1[arrayTileY][arrayTileX]))
+      {
+        std::cout << "foi" << std::endl;
+        bullets.erase(bullets.begin() + i);
       }
     }
   }

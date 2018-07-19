@@ -43,7 +43,7 @@ void Enemy::update(float deltaTime, ofVec2f positionhero)
     int mag = magnitudeSqr(distanciaHeroEnemy);
     //cout << mag << endl;
 
-    if (mag < 4500)
+    if (mag < 5200)
     {
 
       if (!impulsar)

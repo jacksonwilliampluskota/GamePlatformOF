@@ -25,8 +25,8 @@ void EnemyTiro::setup(string path, float x, float y, int level[][40])
 
   //cout << tiles[39][39] << endl;
   sprite.load(path);
-  position.set(x + sprite.getWidth(), y + sprite.getHeight());
-  positionInit.set(x + sprite.getWidth(), y + sprite.getHeight());
+  position.set(x + sprite.getWidth(), y + 18);
+  positionInit.set(x + sprite.getWidth(), y + 18);
   momentum.set(0, 0);
   gravidade.set(0, 100);
 
@@ -53,10 +53,10 @@ void EnemyTiro::update(float deltaTime, ofVec2f positionhero)
 
     distanciaHeroEnemy = positionhero - position;
     int mag = magnitudeSqr(distanciaHeroEnemy);
-    //cout << mag << endl;
 
-    if (mag < 6500)
+    if (mag < 7500)
     {
+      //cout << mag << endl;
       campoVisao = true;
 
       if (onLeft)
@@ -101,6 +101,18 @@ void EnemyTiro::update(float deltaTime, ofVec2f positionhero)
     accelSecs = acceleration * deltaTime;
     position += (momentum + accelSecs) * deltaTime;
     momentum += accelSecs;
+
+    if (positionhero.x > position.x)
+    {
+      onRight = true;
+      onLeft = false;
+    }
+
+    if (positionhero.x <= position.x)
+    {
+      onRight = false;
+      onLeft = true;
+    }
   }
 }
 

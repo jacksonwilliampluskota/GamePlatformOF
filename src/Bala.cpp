@@ -6,6 +6,7 @@
 using namespace std;
 Animation *animationBullet;
 Animation *animationBoomerang;
+Animation *animationShootEnemy;
 
 Bala::Bala()
 {
@@ -31,18 +32,34 @@ void Bala::setup(string path, bool f_p, ofVec2f _position, float s, char tipo)
 		position.set(_position.x, _position.y + 8);
 	}
 
+	if (_tipo == R)
+	{
+		position.set(_position.x, _position.y + 8);
+	}
+
 	speed = s + 3;
 
-	if (_tipo != G)
+	if (_tipo != G && _tipo != R)
 	{
 		sprite.load(path);
 	}
 	else
 	{
-		vai = true;
-		positionInitBoo.set(_position.x, _position.y + 8);
-		animationBoomerang = new Animation();
-		animationBoomerang->setup(path, 8, 8);
+
+		if (_tipo == G)
+		{
+			vai = true;
+			positionInitBoo.set(_position.x, _position.y + 8);
+			animationBoomerang = new Animation();
+			animationBoomerang->setup(path, 8, 8);
+		}
+
+		if (_tipo == R)
+		{
+			//cout << _tipo << endl;
+			animationShootEnemy = new Animation();
+			animationShootEnemy->setup(path, 8, 8);
+		}
 	}
 
 	width = sprite.getWidth();
@@ -60,7 +77,7 @@ void Bala::setup(string path, bool f_p, ofVec2f _position, float s, char tipo)
 
 	gravidade.set(0, 60);
 
-	if (_tipo != G)
+	if (_tipo != G && _tipo != R)
 	{
 		animationBullet = new Animation();
 		animationBullet->setup("EXPLOSION", 8, 8);
@@ -70,160 +87,220 @@ void Bala::setup(string path, bool f_p, ofVec2f _position, float s, char tipo)
 void Bala::update(float deltaTime, ofVec2f positionHero, bool onLeft)
 {
 
-	if (_tipo == A)
+	if (fromPlayer)
 	{
-		ofVec2f forces;
-		ofVec2f acceleration;
-		ofVec2f accelSecs;
-
-		forces = forces * speed;
-		acceleration = forces / mass;
-
-		accelSecs = acceleration * deltaTime;
-		position += (momentum + accelSecs) * deltaTime;
-		momentum += accelSecs;
-	}
-
-	//cout << _tipo << endl;
-	if (_tipo == B)
-	{
-		ofVec2f forces;
-		ofVec2f acceleration;
-		ofVec2f accelSecs;
-
-		forces = forces * speed;
-
-		acceleration = forces / mass;
-		accelSecs = (acceleration + gravidade) * deltaTime;
-
-		position += (momentum + accelSecs) * deltaTime;
-		momentum += accelSecs;
-	}
-
-	if (_tipo == E)
-	{
-		momentum.y = 0;
-	}
-
-	if (_tipo == G)
-	{
-		ofVec2f forces;
-		ofVec2f acceleration;
-		ofVec2f accelSecs;
-
-		ofVec2f vecAqui;
-
-		if (onLeft)
+		if (_tipo == A)
 		{
-			vecAqui.set(positionInitBoo.x - 100, positionInitBoo.y);
-		}
-		else
-		{
-			vecAqui.set(positionInitBoo.x + 100, positionInitBoo.y);
+			ofVec2f forces;
+			ofVec2f acceleration;
+			ofVec2f accelSecs;
+
+			forces = forces * speed;
+			acceleration = forces / mass;
+
+			accelSecs = acceleration * deltaTime;
+			position += (momentum + accelSecs) * deltaTime;
+			momentum += accelSecs;
 		}
 
-		ofVec2f newVec;
-
-		if (!volta && vai)
+		//cout << _tipo << endl;
+		if (_tipo == B)
 		{
-			newVec = vecAqui - position;
+			ofVec2f forces;
+			ofVec2f acceleration;
+			ofVec2f accelSecs;
 
-			//float mag = newVec.x * newVec.x + newVec.y * newVec.y;
-			//cout << mag << endl;
-			if (position.x >= positionInitBoo.x + 25 || position.x <= positionInitBoo.x - 25)
+			forces = forces * speed;
+
+			acceleration = forces / mass;
+			accelSecs = (acceleration + gravidade) * deltaTime;
+
+			position += (momentum + accelSecs) * deltaTime;
+			momentum += accelSecs;
+		}
+
+		if (_tipo == E)
+		{
+			momentum.y = 0;
+		}
+
+		if (_tipo == G)
+		{
+			ofVec2f forces;
+			ofVec2f acceleration;
+			ofVec2f accelSecs;
+
+			ofVec2f vecAqui;
+
+			if (onLeft)
 			{
-				volta = true;
-				vai = false;
+				vecAqui.set(positionInitBoo.x - 100, positionInitBoo.y);
 			}
-		}
+			else
+			{
+				vecAqui.set(positionInitBoo.x + 100, positionInitBoo.y);
+			}
 
-		if (volta && !vai)
+			ofVec2f newVec;
+
+			if (!volta && vai)
+			{
+				newVec = vecAqui - position;
+
+				//float mag = newVec.x * newVec.x + newVec.y * newVec.y;
+				//cout << mag << endl;
+				if (position.x >= positionInitBoo.x + 15 || position.x <= positionInitBoo.x - 15)
+				{
+					volta = true;
+					vai = false;
+				}
+			}
+
+			if (volta && !vai)
+			{
+				//momentum.x = momentum.x * -1;
+
+				newVec = positionHero - position;
+
+				//float mag = newVec.x * newVec.x + newVec.y * newVec.y;
+				//cout << mag << endl;
+
+				//vai = true;
+			}
+
+			forces += newVec.normalize() * speed;
+			acceleration = forces / mass;
+
+			accelSecs = acceleration * deltaTime;
+			position += (momentum + accelSecs) * deltaTime;
+			momentum += accelSecs;
+		}
+	}
+	else
+	{
+		if (_tipo == R)
 		{
-			//momentum.x = momentum.x * -1;
+			ofVec2f forces;
+			ofVec2f acceleration;
+			ofVec2f accelSecs;
 
-			newVec = positionHero - position;
+			if (atira)
+			{
+				newVecTiro = positionHero - position;
 
-			float mag = newVec.x * newVec.x + newVec.y * newVec.y;
-			cout << mag << endl;
+				cout << position << endl;
+				cout << "hero" << positionHero << endl;
+				angleTiroEnemy = atan2(newVecTiro.y, newVecTiro.x);
+				cout << angleTiroEnemy * 180 / PI << endl;
+			}
 
-			//vai = true;
+			forces += newVecTiro.normalize() * speed;
+			acceleration = forces / mass;
+
+			accelSecs = acceleration * deltaTime;
+			position += (momentum + accelSecs) * deltaTime;
+			momentum += accelSecs;
 		}
-
-		forces += newVec.normalize() * speed;
-		acceleration = forces / mass;
-
-		accelSecs = acceleration * deltaTime;
-		position += (momentum + accelSecs) * deltaTime;
-		momentum += accelSecs;
 	}
 }
 
 void Bala::draw()
 {
 
-	if (_tipo == A || _tipo == B)
+	if (fromPlayer)
 	{
-		ofTranslate(position.x, position.y);
-		sprite.draw(0, 0);
-	}
-
-	if (_tipo == E)
-	{
-		if (tryOnemoreTime)
+		if (_tipo == A || _tipo == B)
 		{
-			sprite.clear();
+			ofTranslate(position.x, position.y);
+			sprite.draw(0, 0);
 		}
 
-		animationBullet->draw(position.x - 32, position.y - 32);
-		tryOnemoreTime = false;
-
-		//cout << animationBullet->imageno << endl;
-		if (animationBullet->imageno == 7)
+		if (_tipo == E)
 		{
-			paraAnimation = true;
+			if (tryOnemoreTime)
+			{
+				sprite.clear();
+			}
+
+			animationBullet->draw(position.x - 32, position.y - 32);
+			tryOnemoreTime = false;
+
+			//cout << animationBullet->imageno << endl;
+			if (animationBullet->imageno == 7)
+			{
+				paraAnimation = true;
+			}
+		}
+
+		if (_tipo == G)
+		{
+			animationBoomerang->draw(position.x, position.y);
 		}
 	}
-
-	if (_tipo == G)
+	else
 	{
-		animationBoomerang->draw(position.x, position.y);
+		if (_tipo == R)
+		{
+			animationShootEnemy->draw(position.x, position.y);
+		}
 	}
 }
 
 void Bala::impulso(bool heroLeft, float angleCanhao)
 {
-	if (_tipo == A)
+
+	if (fromPlayer)
 	{
-		momentum.set(0, 0);
-		ofVec2f impulse;
-		impulse.set(3000, 0);
-		if (heroLeft)
+		if (_tipo == A)
 		{
-			impulse.set(-3000, 0);
+			momentum.set(0, 0);
+			ofVec2f impulse;
+			impulse.set(3000, 0);
+			if (heroLeft)
+			{
+				impulse.set(-3000, 0);
+			}
+
+			momentum += impulse / mass;
 		}
 
-		momentum += impulse / mass;
-	}
-
-	if (_tipo == B)
-	{
-		momentum.set(0, 0);
-		ofVec2f impulse;
-		impulse.set(1000 * cos(angleCanhao * PI / 180), 1000 * sin(angleCanhao * PI / 180));
-		momentum += impulse / mass;
-	}
-
-	if (_tipo == G)
-	{
-		momentum.set(0, 0);
-		ofVec2f impulse;
-		impulse.set(30, 0);
-		if (heroLeft)
+		if (_tipo == B)
 		{
-			impulse.set(-30, 0);
+			momentum.set(0, 0);
+			ofVec2f impulse;
+			impulse.set(1000 * cos(angleCanhao * PI / 180), 1000 * sin(angleCanhao * PI / 180));
+			momentum += impulse / mass;
 		}
 
-		momentum += impulse / mass;
+		if (_tipo == G)
+		{
+			momentum.set(0, 0);
+			ofVec2f impulse;
+			impulse.set(30, 0);
+			if (heroLeft)
+			{
+				impulse.set(-30, 0);
+			}
+
+			momentum += impulse / mass;
+		}
+	}
+
+	else
+	{
+		if (_tipo == R)
+		{
+
+			if (atira)
+			{
+				momentum.set(0, 0);
+				ofVec2f impulse;
+				impulse.set(300 * cos(angleTiroEnemy), 300 * sin(angleTiroEnemy));
+
+				momentum += impulse / mass;
+				atira = false;
+			}
+		}
 	}
 }
 

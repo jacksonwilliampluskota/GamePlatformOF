@@ -7,7 +7,6 @@ class Bala
 {
 private:
 	float speed;
-	bool fromPlayer;
 	ofVec2f momentum;
 	float mass;
 	enum tipos
@@ -15,13 +14,18 @@ private:
 		A = 65,
 		B = 'B',
 		E = 'E',
-		G = 'G'
+		G = 'G',
+		R = 'R'
 	};
 	ofVec2f gravidade;
 	ofVec2f positionInitBoo;
 	bool vai = false;
+	bool atira = true;
+	float angleTiroEnemy;
+	ofVec2f newVecTiro;
 
 public:
+	bool fromPlayer;
 	bool volta = false;
 	bool paraAnimation = false;
 	bool tryOnemoreTime = true;
