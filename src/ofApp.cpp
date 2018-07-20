@@ -25,6 +25,7 @@ void ofApp::setup()
 {
   gameState = "start";
   mundo = new World();
+  mundo->moeda_setup("COIN", 138, 610);
   fase1 = new level1();
   fase1->setup();
   hero = new Hero();
@@ -50,6 +51,7 @@ void ofApp::update()
     {
       gameState = "end";
     }
+    mundo->moeda_update(ofGetLastFrameTime());
     camera->update(hero->getPosition());
     hero->update(ofGetLastFrameTime());
     enemy1->update(ofGetLastFrameTime(), hero->getPosition());
@@ -129,6 +131,7 @@ void ofApp::draw()
     hero->draw();
     enemy1->draw();
     enemy2->draw();
+    mundo->moeda_draw();
     for (int i = 0; i < bullets.size(); i++)
     {
       ofPushMatrix();
