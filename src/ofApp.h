@@ -10,6 +10,7 @@ public:
 	void update();
 	void draw();
 	void bullet_update(float deltaTime);
+	void ofmoeda_update(float deltaTime);
 
 	void keyPressed(int key);
 	void keyReleased(int key);

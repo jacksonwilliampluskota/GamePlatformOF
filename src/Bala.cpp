@@ -311,11 +311,19 @@ bool Bala::colidiu(int tile)
 	if (ofGetWidth() + position.x < 0 || position.x + width > ofGetWindowWidth())
 		return true;
 
-	if (position.y > ofGetWindowHeight())
+	if (ofGetWidth() + position.x < 0 || position.y > ofGetWindowHeight())
 		return true;
 
-	if (tile == 16 || tile == 18)
-		return true;
+	if (fromPlayer)
+	{
+		if (tile == 16 || tile == 18)
+			return true;
+	}
+	else
+	{
+		if (tile == 18)
+			return true;
+	}
 
 	return false;
 }

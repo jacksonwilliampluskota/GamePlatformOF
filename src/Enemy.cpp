@@ -1,19 +1,26 @@
 #include "Enemy.h"
 #include <stdio.h>
-#include "Animation.h"
 
 using namespace std;
-Animation *animationEnemy;
 
 Enemy::Enemy()
 {
-  animationEnemy = new Animation();
 }
 
-void Enemy::setup(string path, float x, float y, int level[][40])
+void Enemy::setup(string path, float x, float y, int level[][40], bool onLeftStart)
 {
+  animationEnemy = new Animation();
+
+  if (!onLeftStart)
+  {
+    onLeft = false;
+    onRight = true;
+    state = "ENEMY_RIGHT";
+  }
+  cout << state << endl;
+
   qtdAnimation = 5;
-  animationEnemy->setup(state, qtdAnimation, 10);
+  animationEnemy->setup(state, qtdAnimation, 8);
   for (int i = 0; i < 40; i++)
   {
     for (int j = 0; j < 40; j++)
@@ -58,7 +65,7 @@ void Enemy::update(float deltaTime, ofVec2f positionhero)
 
         if (tryOne)
         {
-          setNewAnimation("ENEMY_LEFT", 5, 10);
+          setNewAnimation("ENEMY_LEFT", 5, 20);
           tryOne = false;
         }
 
@@ -76,7 +83,7 @@ void Enemy::update(float deltaTime, ofVec2f positionhero)
 
         if (tryOne)
         {
-          setNewAnimation("ENEMY_RIGHT", 5, 10);
+          setNewAnimation("ENEMY_RIGHT", 5, 20);
           tryOne = false;
         }
 
@@ -186,10 +193,10 @@ void Enemy::impulso(bool onLeft)
 {
   momentum.set(0, 0);
   ofVec2f impulse;
-  impulse.set(15, 0);
+  impulse.set(20, 0);
   if (onLeft)
   {
-    impulse.set(-15, 0);
+    impulse.set(-20, 0);
   }
 
   momentum += impulse / mass;

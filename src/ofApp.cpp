@@ -10,33 +10,113 @@
 #include <stdio.h>
 
 string gameState;
-World *mundo;
 Hero *hero;
 Camera *camera;
 level1 *fase1;
+Enemy *enemy0;
 Enemy *enemy1;
 EnemyTiro *enemy2;
-ofImage bg;
 vector<Bala> bullets;
+vector<World> moedas;
 ofVec2f moused;
 ofVec4f mouseRelacaoMundo;
 //--------------------------------------------------------------
 void ofApp::setup()
 {
   gameState = "start";
-  mundo = new World();
-  mundo->moeda_setup("COIN", 138, 610);
+
+  for (int i = 0; i < 13; i++)
+  {
+    World m;
+    int x, y;
+
+    if (i == 0)
+    {
+      x = 138;
+      y = 610;
+    }
+    if (i == 1)
+    {
+      x = 210;
+      y = 570;
+    }
+    if (i == 2)
+    {
+      x = 242;
+      y = 610;
+    }
+    if (i == 3)
+    {
+      x = 266;
+      y = 610;
+    }
+    if (i == 4)
+    {
+      x = 428;
+      y = 610;
+    }
+    if (i == 5)
+    {
+      x = 530;
+      y = 566;
+    }
+    if (i == 6)
+    {
+      x = 546;
+      y = 566;
+    }
+    if (i == 7)
+    {
+      x = 380;
+      y = 546;
+    }
+    if (i == 8)
+    {
+      x = 324;
+      y = 514;
+    }
+    if (i == 9)
+    {
+      x = 308;
+      y = 514;
+    }
+    if (i == 10)
+    {
+      x = 224;
+      y = 514;
+    }
+    if (i == 11)
+    {
+      x = 164;
+      y = 514;
+    }
+    if (i == 12)
+    {
+      x = 64;
+      y = 514;
+    }
+
+    m.moeda_setup("COIN", x, y);
+    moedas.push_back(m);
+  }
+
   fase1 = new level1();
   fase1->setup();
+
   hero = new Hero();
   hero->setup("images/body.png", 170, 550, fase1->leve1);
+
+  enemy0 = new Enemy();
+  enemy0->setup("images/body_enemy1.png", 80, 550, fase1->leve1, false);
+
   enemy1 = new Enemy();
-  enemy1->setup("images/body_enemy1.png", 370, 550, fase1->leve1);
+  enemy1->setup("images/body_enemy1.png", 282, 550, fase1->leve1, true);
+
   enemy2 = new EnemyTiro();
-  enemy2->setup("images/body_enemy2.png", 470, 550, fase1->leve1);
+  enemy2->setup("images/body_enemy2.png", 362, 550, fase1->leve1);
+
   camera = new Camera();
   camera->setup(hero->getPosition());
-  bg.load("images/download.jpg");
 }
 
 //--------------------------------------------------------------
@@ -51,15 +131,28 @@ void ofApp::update()
     {
       gameState = "end";
     }
-    mundo->moeda_update(ofGetLastFrameTime());
+    ofmoeda_update(ofGetLastFrameTime());
     camera->update(hero->getPosition());
     hero->update(ofGetLastFrameTime());
+    enemy0->update(ofGetLastFrameTime(), hero->getPosition());
     enemy1->update(ofGetLastFrameTime(), hero->getPosition());
     enemy2->update(ofGetLastFrameTime(), hero->getPosition());
 
     if (hero->colidiuEnemy(16, 16, enemy1->getPosition(), 12, 18))
     {
       std::cout << "colidiu com enemy 1" << endl;
+
+      hero->dano();
+
+      if (hero->vidas <= 0)
+      {
+        gameState = "end";
+      }
+    }
+
+    if (hero->colidiuEnemy(16, 16, enemy0->getPosition(), 12, 18))
+    {
+      std::cout << "colidiu com enemy 0" << endl;
 
       hero->dano();
 
@@ -79,6 +172,11 @@ void ofApp::update()
       {
         gameState = "end";
       }
+    }
+
+    if (enemy0->vidas <= 0)
+    {
+      enemy0->setMorte();
     }
 
     if (enemy1->vidas <= 0)
@@ -127,16 +225,21 @@ void ofApp::draw()
     ofPushMatrix();
     camera->draw();
     fase1->draw();
-    //bg.draw(100, 100);
     hero->draw();
+    enemy0->draw();
     enemy1->draw();
     enemy2->draw();
-    mundo->moeda_draw();
+
     for (int i = 0; i < bullets.size(); i++)
     {
       ofPushMatrix();
       bullets[i].draw();
       ofPopMatrix();
+    }
+
+    for (int i = 0; i < moedas.size(); i++)
+    {
+      moedas[i].moeda_draw();
     }
     ofPopMatrix();
   }
@@ -182,6 +285,15 @@ void ofApp::bullet_update(float deltaTime)
 
       if (bullets[i]._tipo == 'A')
       {
+        if (bullets[i].colidiuExplosao(16, 16, enemy0->getPosition(), 7, 4))
+        {
+          enemy0->dano(bullets[i]._tipo);
+
+          std::cout << "foi" << std::endl;
+          bullets.erase(bullets.begin() + i);
+          hero->canshoot = true;
+        }
+
         if (bullets[i].colidiuExplosao(16, 16, enemy1->getPosition(), 7, 4))
         {
           enemy1->dano(bullets[i]._tipo);
@@ -208,6 +320,11 @@ void ofApp::bullet_update(float deltaTime)
           gameState = "end";
         }
 
+        if (bullets[i].colidiuExplosao(16, 16, enemy0->getPosition(), 32, 32))
+        {
+          enemy0->setMorte();
+        }
+
         if (bullets[i].colidiuExplosao(16, 16, enemy1->getPosition(), 32, 32))
         {
           enemy1->setMorte();
@@ -228,6 +345,15 @@ void ofApp::bullet_update(float deltaTime)
 
       if (bullets[i]._tipo == 'G')
       {
+        if (bullets[i].colidiuExplosao(16, 16, enemy0->getPosition(), 6, 4))
+        {
+          enemy0->dano(bullets[i]._tipo);
+
+          std::cout << "foi" << std::endl;
+          bullets.erase(bullets.begin() + i);
+          hero->canshoot = true;
+        }
+
         if (bullets[i].colidiuExplosao(16, 16, enemy1->getPosition(), 6, 4))
         {
           enemy1->dano(bullets[i]._tipo);
@@ -282,6 +408,13 @@ void ofApp::bullet_update(float deltaTime)
         bullets.erase(bullets.begin() + i);
       }
     }
+  }
+}
+void ofApp::ofmoeda_update(float deltaTime)
+{
+  for (int i = 0; i < moedas.size(); i++)
+  {
+    moedas[i].moeda_update(deltaTime);
   }
 }
 //--------------------------------------------------------------

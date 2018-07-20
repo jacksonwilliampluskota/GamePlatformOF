@@ -1,6 +1,7 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 #include "ofApp.h"
+#include "Animation.h"
 class Enemy
 {
 private:
@@ -8,14 +9,15 @@ private:
 	ofVec2f gravidade;
 	ofVec2f momentum;
 	float mass = 1;
-	float speed = 10;
-	float maxSpeed = 40;
+	float speed = 15;
+	float maxSpeed = 50;
 	int tiles[40][40];
 	int type;
 	string state = "ENEMY_LEFT";
 	int qtdAnimation;
 	ofVec2f distanciaHeroEnemy;
 	bool impulsar = false;
+	Animation *animationEnemy;
 
 public:
 	int vidas = 3;
@@ -25,7 +27,7 @@ public:
 	ofVec2f positionInit;
 	bool morreu = false;
 	Enemy();
-	void setup(string path, float x, float y, int level[][40]);
+	void setup(string path, float x, float y, int level[][40], bool onLeftStart);
 	void update(float deltaTime, ofVec2f positionhero);
 	void draw();
 	ofVec2f getPosition();

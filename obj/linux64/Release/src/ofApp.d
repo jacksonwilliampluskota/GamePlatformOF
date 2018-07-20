@@ -349,6 +349,7 @@ obj/linux64/Release/src/ofApp.o: \
  /home/jackson/Downloads/OF/libs/openFrameworks/3d/ofCamera.h \
  /home/jackson/Downloads/OF/libs/openFrameworks/3d/ofEasyCam.h \
  /home/jackson/Documents/plataformGame/src/World.h \
+ /home/jackson/Documents/plataformGame/src/Animation.h \
  /home/jackson/Documents/plataformGame/src/Hero.h \
  /home/jackson/Documents/plataformGame/src/Camera.h \
  /home/jackson/Documents/plataformGame/src/Bala.h \
@@ -1087,6 +1088,8 @@ obj/linux64/Release/src/ofApp.o: \
 /home/jackson/Downloads/OF/libs/openFrameworks/3d/ofEasyCam.h:
 
 /home/jackson/Documents/plataformGame/src/World.h:
+
+/home/jackson/Documents/plataformGame/src/Animation.h:
 
 /home/jackson/Documents/plataformGame/src/Hero.h:
 

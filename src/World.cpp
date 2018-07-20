@@ -1,14 +1,12 @@
 #include "World.h"
-#include "Animation.h"
 #include <stdio.h>
 
-Animation *animationCoin;
 World::World()
 {
 	std::cout << "inciou" << std::endl;
 }
 
-void World::moeda_setup(string state,int x, int y)
+void World::moeda_setup(string state, int x, int y)
 {
 	animationCoin = new Animation();
 	positionCoin.set(x, y);
@@ -17,7 +15,6 @@ void World::moeda_setup(string state,int x, int y)
 
 void World::moeda_update(float deltaTime)
 {
-
 }
 
 void World::moeda_draw()
