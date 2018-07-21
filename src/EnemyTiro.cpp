@@ -1,17 +1,15 @@
 #include "EnemyTiro.h"
 #include <stdio.h>
-#include "Animation.h"
 
 using namespace std;
-Animation *animationEnemyTiro;
 
 EnemyTiro::EnemyTiro()
 {
-  animationEnemyTiro = new Animation();
 }
 
 void EnemyTiro::setup(string path, float x, float y, int level[][40])
 {
+  animationEnemyTiro = new Animation();
   float max_enemy_shoot_interval = 1.0;
   qtdAnimation = 5;
   animationEnemyTiro->setup(state, qtdAnimation, 10);
@@ -36,11 +34,6 @@ void EnemyTiro::setup(string path, float x, float y, int level[][40])
 
 void EnemyTiro::update(float deltaTime, ofVec2f positionhero)
 {
-
-  /*
-    enemigo fica parado se entrar no raio do enimigo ele da um tiro
-    a cada tempo enquanto o heroi esta dentro do campo de visao de enimigo
-  */
 
   if (!morreu)
   {

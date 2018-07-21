@@ -91,6 +91,11 @@ void Bala::update(float deltaTime, ofVec2f positionHero, bool onLeft)
 	{
 		if (_tipo == A)
 		{
+			ofVec2f novo = positionHero - position;
+
+			magFlecha = novo.x * novo.x + novo.y * novo.y;
+			cout << "mag Flecha" << magFlecha << endl;
+
 			ofVec2f forces;
 			ofVec2f acceleration;
 			ofVec2f accelSecs;

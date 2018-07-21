@@ -1,9 +1,7 @@
 #include "Hero.h"
 #include <stdio.h>
-#include "Animation.h"
 
 using namespace std;
-Animation *animation;
 Hero::Hero()
 {
 	animation = new Animation();
@@ -61,7 +59,7 @@ void Hero::update(float deltaTime)
 		arrayTileX = (position.x / 40) * 2.5;
 	}
 
-	int arrayTileY = ((position.y + sprite.getHeight()) / 40) * 2.5;
+	int arrayTileY = ((position.y + 19) / 40) * 2.5;
 
 	type = tiles[arrayTileY][arrayTileX];
 

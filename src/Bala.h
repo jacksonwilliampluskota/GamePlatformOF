@@ -25,6 +25,7 @@ private:
 	ofVec2f newVecTiro;
 
 public:
+	float magFlecha;
 	bool fromPlayer;
 	bool volta = false;
 	bool paraAnimation = false;

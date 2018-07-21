@@ -17,7 +17,6 @@ void Enemy::setup(string path, float x, float y, int level[][40], bool onLeftSta
     onRight = true;
     state = "ENEMY_RIGHT";
   }
-  cout << state << endl;
 
   qtdAnimation = 5;
   animationEnemy->setup(state, qtdAnimation, 8);
@@ -29,7 +28,6 @@ void Enemy::setup(string path, float x, float y, int level[][40], bool onLeftSta
     }
   }
 
-  //cout << tiles[39][39] << endl;
   sprite.load(path);
   position.set(x + sprite.getWidth(), y + sprite.getHeight());
   positionInit.set(x + sprite.getWidth(), y + sprite.getHeight());
@@ -48,7 +46,6 @@ void Enemy::update(float deltaTime, ofVec2f positionhero)
 
     distanciaHeroEnemy = positionhero - position;
     int mag = magnitudeSqr(distanciaHeroEnemy);
-    //cout << mag << endl;
 
     if (mag < 5200)
     {
@@ -65,7 +62,7 @@ void Enemy::update(float deltaTime, ofVec2f positionhero)
 
         if (tryOne)
         {
-          setNewAnimation("ENEMY_LEFT", 5, 20);
+          setNewAnimation("ENEMY_LEFT", 5, 8);
           tryOne = false;
         }
 
@@ -83,7 +80,7 @@ void Enemy::update(float deltaTime, ofVec2f positionhero)
 
         if (tryOne)
         {
-          setNewAnimation("ENEMY_RIGHT", 5, 20);
+          setNewAnimation("ENEMY_RIGHT", 5, 8);
           tryOne = false;
         }
 
@@ -185,8 +182,6 @@ void Enemy::dano(char tipo)
     vidas -= 2;
   }
 
-  cout << "retirou vida do enemy" << endl;
-  cout << vidas << endl;
 }
 
 void Enemy::impulso(bool onLeft)

@@ -3,7 +3,6 @@
 
 World::World()
 {
-	std::cout << "inciou" << std::endl;
 }
 
 void World::moeda_setup(string state, int x, int y)

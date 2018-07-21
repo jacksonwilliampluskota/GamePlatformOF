@@ -3,6 +3,7 @@
 
 #include "ofApp.h"
 #include <string>
+#include "Animation.h"
 class Hero
 {
 private:
@@ -12,7 +13,6 @@ private:
 	float mass = 15;
 	float speed = 10;
 	float maxSpeed = 40;
-	bool pulando;
 	int tiles[40][40];
 	int type;
 	string state = "IDDLE_RIGHT";
@@ -20,9 +20,16 @@ private:
 	ofVec2f mousePosition;
 	ofVec2f vecMouse;
 	ofImage imagemseta;
+	Animation *animation;
 
 public:
+	int enemyKill = 0;
+	bool pulando;
+	bool temBumerang = false;
+	bool temArco = false;
+	bool temDinamite = false;
 	int vidas = 3;
+	int moedas = 0;
 	float angle;
 	bool is_left_press, is_right_press, is_up_press, is_down_press, is_space_press, is_Q_press, is_E_press;
 	bool tryOne = false;

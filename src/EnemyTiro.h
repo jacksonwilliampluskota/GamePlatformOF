@@ -1,6 +1,7 @@
 #ifndef ENEMYTIRO_H
 #define ENEMYTIRO_H
 #include "ofApp.h"
+#include "Animation.h"
 class EnemyTiro
 {
 private:
@@ -16,6 +17,7 @@ private:
 	int qtdAnimation;
 	ofVec2f distanciaHeroEnemy;
 	bool impulsar = false;
+	Animation *animationEnemyTiro;
 
 public:
 	bool campoVisao = false;
