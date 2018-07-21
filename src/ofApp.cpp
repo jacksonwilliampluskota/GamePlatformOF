@@ -38,6 +38,9 @@ ofVec2f flagposition;
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+  soundGame.load("sound/game.wav");
+  soundGame.play();
+  soundGame.setLoop(true);
   font.loadFont("fonts/verdana.ttf", 15);
   fim.loadFont("fonts/verdana.ttf", 24);
   bg.load("images/inicioBg.png");
@@ -426,6 +429,7 @@ void ofApp::update()
   }
   else if (gameState == "end")
   {
+    soundGame.stop();
   }
 }
 
