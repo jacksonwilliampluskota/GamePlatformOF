@@ -51,7 +51,7 @@ void ofApp::setup()
   flagposition.set(608, 550);
   gameState = "start";
 
-    for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 3; i++)
   {
     Item it;
     int x, y;
@@ -170,7 +170,7 @@ void ofApp::setup()
 
   enemy5 = new Enemy();
   enemy5->setup("images/body_enemy1.png", 86, 490, fase1->leve1, false);
-  
+
   enemy3 = new EnemyTiro();
   enemy3->setup("images/body_enemy2.png", 440, 500, fase1->leve1);
 
@@ -192,7 +192,6 @@ void ofApp::update()
   }
   else if (gameState == "game")
   {
-    //std::cout << hero->enemyKill << std::endl;
     if (hero->vidas <= 0)
     {
       gameState = "end";
@@ -211,7 +210,6 @@ void ofApp::update()
 
     if (hero->colidiuEnemy(16, 16, enemy1->getPosition(), 12, 18))
     {
-      std::cout << "colidiu com enemy 1" << endl;
 
       hero->dano();
 
@@ -223,7 +221,6 @@ void ofApp::update()
 
     if (hero->colidiuEnemy(16, 16, enemy4->getPosition(), 12, 18))
     {
-      std::cout << "colidiu com enemy 1" << endl;
 
       hero->dano();
 
@@ -235,7 +232,6 @@ void ofApp::update()
 
     if (hero->colidiuEnemy(16, 16, enemy5->getPosition(), 12, 18))
     {
-      std::cout << "colidiu com enemy 1" << endl;
 
       hero->dano();
 
@@ -247,7 +243,6 @@ void ofApp::update()
 
     if (hero->colidiuEnemy(16, 16, enemy0->getPosition(), 12, 18))
     {
-      std::cout << "colidiu com enemy 0" << endl;
 
       hero->dano();
 
@@ -259,7 +254,6 @@ void ofApp::update()
 
     if (hero->colidiuEnemy(16, 16, enemy3->getPosition(), 12, 18))
     {
-      std::cout << "colidiu com enemy 0" << endl;
 
       hero->dano();
 
@@ -271,7 +265,6 @@ void ofApp::update()
 
     if (hero->colidiuEnemy(16, 16, enemy2->getPosition(), 12, 18))
     {
-      std::cout << "colidiu com enemy 1" << endl;
 
       hero->dano();
 
@@ -283,7 +276,6 @@ void ofApp::update()
 
     if (hero->colidiuEnemy(16, 16, enemy6->getPosition(), 12, 18))
     {
-      std::cout << "colidiu com enemy 1" << endl;
 
       hero->dano();
 
@@ -319,16 +311,13 @@ void ofApp::update()
 
           if (enemy4->time_to_shoot())
           {
-            std::cout << "Atira" << endl;
             Bala bEnemy;
-            std::cout << enemy4->getPosition() << endl;
 
             bEnemy.setup("SHOOT_ENEMY2", false, enemy4->getPosition(), enemy4->getSpeed(), 'R');
             bullets.push_back(bEnemy);
           }
         }
       }
-
     }
 
     if (enemy5->vidas <= 0 && !enemy5->morreu)
@@ -336,7 +325,6 @@ void ofApp::update()
       enemy5->setMorte();
       hero->enemyKill += 1;
     }
-
 
     if (enemy3->vidas <= 0 && !enemy3->morreu)
     {
@@ -353,9 +341,7 @@ void ofApp::update()
 
           if (enemy3->time_to_shoot())
           {
-            std::cout << "Atira" << endl;
             Bala bEnemy;
-            std::cout << enemy3->getPosition() << endl;
 
             bEnemy.setup("SHOOT_ENEMY2", false, enemy3->getPosition(), enemy3->getSpeed(), 'R');
             bullets.push_back(bEnemy);
@@ -378,9 +364,7 @@ void ofApp::update()
 
           if (enemy2->time_to_shoot())
           {
-            std::cout << "Atira" << endl;
             Bala bEnemy;
-            std::cout << enemy2->getPosition() << endl;
 
             bEnemy.setup("SHOOT_ENEMY2", false, enemy2->getPosition(), enemy2->getSpeed(), 'R');
             bullets.push_back(bEnemy);
@@ -403,28 +387,24 @@ void ofApp::update()
         {
           if (enemy6->time_to_shoot())
           {
-            std::cout << "Atira" << endl;
             Bala bEnemy;
-            std::cout << enemy6->getPosition() << endl;
 
             bEnemy.setup("SHOOT_ENEMY2", false, enemy6->getPosition(), enemy6->getSpeed(), 'R');
             bullets.push_back(bEnemy);
           }
         }
       }
-
     }
 
     bullet_update(ofGetLastFrameTime());
 
-    if (hero->enemyKill >=7 && hero->moedas >= 13)
+    if (hero->enemyKill >= 7 && hero->moedas >= 13)
     {
-      
+
       if (hero->colidiuEnemy(20, 44, flagposition, 12, 18))
       {
         gameState = "end";
       }
-
     }
   }
   else if (gameState == "end")
@@ -442,8 +422,8 @@ void ofApp::draw()
     alfa.draw(0, 0);
     ofSetBackgroundColor(17, 20, 27);
     ofSetColor(255, 255, 255);
-		font.drawString("[APERTE QUALQUER TECLA PARA INICIAR O JOGO]", 250, 560);
-		ofSetColor(255, 255, 255);
+    font.drawString("[APERTE QUALQUER TECLA PARA INICIAR O JOGO]", 250, 560);
+    ofSetColor(255, 255, 255);
   }
   else if (gameState == "game")
   {
@@ -460,7 +440,7 @@ void ofApp::draw()
     enemy2->draw();
     enemy6->draw();
 
-    if (hero->enemyKill >=7 && hero->moedas >= 13)
+    if (hero->enemyKill >= 7 && hero->moedas >= 13)
     {
       flagImg.draw(flagposition.x, flagposition.y);
     }
@@ -487,13 +467,13 @@ void ofApp::draw()
 
     ofSetColor(255, 255, 255);
     font.drawString("X" + std::to_string(hero->vidas), 50, 60);
-		ofSetColor(255, 255, 255);
+    ofSetColor(255, 255, 255);
 
     moedaImg.draw(100, 40);
 
     ofSetColor(255, 255, 255);
     font.drawString("X" + std::to_string(hero->moedas), 120, 60);
-		ofSetColor(255, 255, 255);
+    ofSetColor(255, 255, 255);
   }
   else if (gameState == "end")
   {
@@ -511,13 +491,12 @@ void ofApp::draw()
     else
     {
       ofSetColor(0, 255, 0);
-      fim.drawString("GAME OVER",450, 384);
+      fim.drawString("GAME OVER", 450, 384);
       ofSetColor(255, 255, 255);
 
       ofSetColor(255, 255, 255);
       font.drawString("Voce Venceu!", 470, 410);
       ofSetColor(255, 255, 255);
-
     }
   }
 }
@@ -547,7 +526,6 @@ void ofApp::bullet_update(float deltaTime)
         }
         else
         {
-          std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->canshoot = true;
         }
@@ -563,7 +541,6 @@ void ofApp::bullet_update(float deltaTime)
         {
           enemy0->dano(bullets[i]._tipo);
 
-          std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->canshoot = true;
         }
@@ -572,7 +549,6 @@ void ofApp::bullet_update(float deltaTime)
         {
           enemy1->dano(bullets[i]._tipo);
 
-          std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->canshoot = true;
         }
@@ -581,7 +557,6 @@ void ofApp::bullet_update(float deltaTime)
         {
           enemy4->dano(bullets[i]._tipo);
 
-          std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->canshoot = true;
         }
@@ -590,7 +565,6 @@ void ofApp::bullet_update(float deltaTime)
         {
           enemy5->dano(bullets[i]._tipo);
 
-          std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->canshoot = true;
         }
@@ -599,7 +573,6 @@ void ofApp::bullet_update(float deltaTime)
         {
           enemy3->dano(bullets[i]._tipo);
 
-          std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->canshoot = true;
         }
@@ -608,7 +581,6 @@ void ofApp::bullet_update(float deltaTime)
         {
           enemy2->dano(bullets[i]._tipo);
 
-          std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->canshoot = true;
         }
@@ -617,14 +589,12 @@ void ofApp::bullet_update(float deltaTime)
         {
           enemy6->dano(bullets[i]._tipo);
 
-          std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->canshoot = true;
         }
 
         if (bullets[i].magFlecha > 7500)
         {
-          std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->canshoot = true;
         }
@@ -643,7 +613,7 @@ void ofApp::bullet_update(float deltaTime)
           hero->enemyKill += 1;
         }
 
-        if (bullets[i].colidiuExplosao(16, 16, enemy1->getPosition(), 32, 32)  && !enemy1->morreu)
+        if (bullets[i].colidiuExplosao(16, 16, enemy1->getPosition(), 32, 32) && !enemy1->morreu)
         {
           enemy1->setMorte();
           hero->enemyKill += 1;
@@ -667,7 +637,7 @@ void ofApp::bullet_update(float deltaTime)
           hero->enemyKill += 1;
         }
 
-        if (bullets[i].colidiuExplosao(16, 16, enemy2->getPosition(), 32, 32)  && !enemy2->morreu)
+        if (bullets[i].colidiuExplosao(16, 16, enemy2->getPosition(), 32, 32) && !enemy2->morreu)
         {
           enemy2->setMorte();
           hero->enemyKill += 1;
@@ -681,7 +651,6 @@ void ofApp::bullet_update(float deltaTime)
 
         if (bullets[i].paraAnimation)
         {
-          std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->canshoot = true;
         }
@@ -693,7 +662,6 @@ void ofApp::bullet_update(float deltaTime)
         {
           enemy0->dano(bullets[i]._tipo);
 
-          std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->canshoot = true;
         }
@@ -702,7 +670,6 @@ void ofApp::bullet_update(float deltaTime)
         {
           enemy1->dano(bullets[i]._tipo);
 
-          std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->canshoot = true;
         }
@@ -711,7 +678,6 @@ void ofApp::bullet_update(float deltaTime)
         {
           enemy4->dano(bullets[i]._tipo);
 
-          std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->canshoot = true;
         }
@@ -720,7 +686,6 @@ void ofApp::bullet_update(float deltaTime)
         {
           enemy5->dano(bullets[i]._tipo);
 
-          std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->canshoot = true;
         }
@@ -729,7 +694,6 @@ void ofApp::bullet_update(float deltaTime)
         {
           enemy3->dano(bullets[i]._tipo);
 
-          std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->canshoot = true;
         }
@@ -738,7 +702,6 @@ void ofApp::bullet_update(float deltaTime)
         {
           enemy2->dano(bullets[i]._tipo);
 
-          std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->canshoot = true;
         }
@@ -747,7 +710,6 @@ void ofApp::bullet_update(float deltaTime)
         {
           enemy6->dano(bullets[i]._tipo);
 
-          std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->canshoot = true;
         }
@@ -757,7 +719,6 @@ void ofApp::bullet_update(float deltaTime)
           //-----------------------------Alt e larg hero             alt e larg da bala
           if (bullets[i].colidiuExplosao(12, 18, hero->getPosition(), 6, 4))
           {
-            std::cout << "foi" << std::endl;
             bullets.erase(bullets.begin() + i);
             hero->canshoot = true;
           }
@@ -776,7 +737,6 @@ void ofApp::bullet_update(float deltaTime)
       {
         if (bullets[i].colidiuExplosao(12, 18, hero->getPosition(), 8, 8))
         {
-          std::cout << "foi" << std::endl;
           bullets.erase(bullets.begin() + i);
           hero->vidas -= 2;
         }
@@ -784,7 +744,6 @@ void ofApp::bullet_update(float deltaTime)
 
       if (bullets[i].colidiu(fase1->leve1[arrayTileY][arrayTileX]))
       {
-        std::cout << "foi" << std::endl;
         bullets.erase(bullets.begin() + i);
       }
     }
@@ -799,7 +758,6 @@ void ofApp::ofmoeda_update(float deltaTime)
     {
       hero->moedas += 1;
       moedas.erase(moedas.begin() + i);
-      std::cout << "moedas: " << hero->moedas << endl;
     }
   }
 }
@@ -904,7 +862,6 @@ void ofApp::keyPressed(int key)
 
       if (hero->checkCanShoo())
       {
-        std::cout << "deu para atira" << endl;
         bullets.push_back(b);
       }
     }
@@ -1090,7 +1047,6 @@ void ofApp::mousePressed(int x, int y, int button)
 
       if (hero->checkCanShoo())
       {
-        std::cout << "aqui" << std::endl;
         bullets.push_back(b);
       }
     }

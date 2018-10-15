@@ -21,7 +21,6 @@ void EnemyTiro::setup(string path, float x, float y, int level[][40])
     }
   }
 
-  //cout << tiles[39][39] << endl;
   sprite.load(path);
   position.set(x + sprite.getWidth(), y + 18);
   positionInit.set(x + sprite.getWidth(), y + 18);
@@ -49,7 +48,6 @@ void EnemyTiro::update(float deltaTime, ofVec2f positionhero)
 
     if (mag < 7500)
     {
-      //cout << mag << endl;
       campoVisao = true;
 
       if (onLeft)
@@ -162,9 +160,6 @@ void EnemyTiro::dano(char tipo)
   {
     vidas -= 2;
   }
-
-  cout << "retirou vida do enemy" << endl;
-  cout << vidas << endl;
 }
 
 void EnemyTiro::impulso(bool onLeft)
@@ -182,7 +177,6 @@ void EnemyTiro::impulso(bool onLeft)
 
 bool EnemyTiro::time_to_shoot()
 {
-  //cout << ofGetElapsedTimef() - start_shoot << endl;
   if (ofGetElapsedTimef() - start_shoot > shoot_interval)
   {
     start_shoot = ofGetElapsedTimef();

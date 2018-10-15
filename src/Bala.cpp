@@ -56,7 +56,6 @@ void Bala::setup(string path, bool f_p, ofVec2f _position, float s, char tipo)
 
 		if (_tipo == R)
 		{
-			//cout << _tipo << endl;
 			animationShootEnemy = new Animation();
 			animationShootEnemy->setup(path, 8, 8);
 		}
@@ -94,7 +93,6 @@ void Bala::update(float deltaTime, ofVec2f positionHero, bool onLeft)
 			ofVec2f novo = positionHero - position;
 
 			magFlecha = novo.x * novo.x + novo.y * novo.y;
-			cout << "mag Flecha" << magFlecha << endl;
 
 			ofVec2f forces;
 			ofVec2f acceleration;
@@ -108,7 +106,6 @@ void Bala::update(float deltaTime, ofVec2f positionHero, bool onLeft)
 			momentum += accelSecs;
 		}
 
-		//cout << _tipo << endl;
 		if (_tipo == B)
 		{
 			ofVec2f forces;
@@ -153,7 +150,6 @@ void Bala::update(float deltaTime, ofVec2f positionHero, bool onLeft)
 				newVec = vecAqui - position;
 
 				//float mag = newVec.x * newVec.x + newVec.y * newVec.y;
-				//cout << mag << endl;
 				if (position.x >= positionInitBoo.x + 15 || position.x <= positionInitBoo.x - 15)
 				{
 					volta = true;
@@ -168,7 +164,6 @@ void Bala::update(float deltaTime, ofVec2f positionHero, bool onLeft)
 				newVec = positionHero - position;
 
 				//float mag = newVec.x * newVec.x + newVec.y * newVec.y;
-				//cout << mag << endl;
 
 				//vai = true;
 			}
@@ -193,10 +188,7 @@ void Bala::update(float deltaTime, ofVec2f positionHero, bool onLeft)
 			{
 				newVecTiro = positionHero - position;
 
-				cout << position << endl;
-				cout << "hero" << positionHero << endl;
 				angleTiroEnemy = atan2(newVecTiro.y, newVecTiro.x);
-				cout << angleTiroEnemy * 180 / PI << endl;
 			}
 
 			forces += newVecTiro.normalize() * speed;
@@ -230,7 +222,6 @@ void Bala::draw()
 			animationBullet->draw(position.x - 32, position.y - 32);
 			tryOnemoreTime = false;
 
-			//cout << animationBullet->imageno << endl;
 			if (animationBullet->imageno == 7)
 			{
 				paraAnimation = true;

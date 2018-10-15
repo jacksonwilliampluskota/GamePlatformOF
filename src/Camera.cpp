@@ -24,9 +24,6 @@ void Camera::update(ofVec2f positionHero)
 	float vinteCincoCinco = ofGetWindowWidth() - (ofGetWindowWidth() * 0.75f);
 	float setentaCincoCinco = ofGetWindowWidth() - (ofGetWindowWidth() * 0.25f);
 
-	/* cout << heroRelacaoMundo << endl;
-	cout << x << endl; */
-
 	if (heroRelacaoMundo.x > 0 && heroRelacaoMundo.x <= x && heroRelacaoMundo.y > 0 /* && heroRelacaoMundo.y <= y */)
 	{
 		view = ofMatrix4x4();

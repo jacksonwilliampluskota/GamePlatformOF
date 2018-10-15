@@ -19,7 +19,6 @@ void Hero::setup(string path, float x, float y, int level[][40])
 		}
 	}
 
-	//cout << tiles[39][39] << endl;
 	sprite.load(path);
 	position.set(x + sprite.getWidth(), y + sprite.getHeight());
 	momentum.set(0, 0);
@@ -255,8 +254,6 @@ void Hero::dano()
 	momentum += impulse / mass;
 
 	vidas -= 1;
-	cout << "afastou" << endl;
-	cout << vidas << endl;
 }
 
 Hero::~Hero()
