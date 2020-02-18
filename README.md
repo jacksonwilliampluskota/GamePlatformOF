@@ -1,14 +1,14 @@
 # GamePlatformOF
 
-Platform Game make in OpenFramework
+Platform Game maker in OpenFramework
 
 ## Getting Started
 
-Firs you need save the project in /Documents
+First you will need to save the project in /Documents
 
 ### Prerequisites
 
-You nedd download Openframework install linux gcc6 or later. Work only linux. Save openframework in "/Downloads"
+You need to download Openframework and install linux gcc6 or later. Work only linux. Save openframework in "/Downloads"
 
 ```
 https://openframeworks.cc/download/
@@ -18,7 +18,7 @@ https://openframeworks.cc/download/
 
 ### Installing
 
-Firt you need change project name to "plataformGame"
+First you need to change the project name to "plataformGame"
 
 ```
 sudo mv GamePlatformOF/ plataformGame/
@@ -48,13 +48,13 @@ like this:
 
 ## Running the tests
 
-Go project folder ande run
+Go project folder and run
 
 ```
 https://openframeworks.cc/setup/linux-install/
 
 ```
-after go to bin/ and execute
+After go to bin/ and execute
 
 ```
 ./plataformGame
