@@ -24,7 +24,7 @@ First you need to change the project name to "plataformGame"
 sudo mv GamePlatformOF/ plataformGame/
 ```
 
-Chage name of donloaded openframework to "OF"
+Change the name of donloaded openframework to "OF"
 
 ```
 sudo mv of_vx.xx.x_linux64gcc6_release/ OF/
