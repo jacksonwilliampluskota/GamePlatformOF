@@ -48,7 +48,7 @@ like this:
 
 ## Running the tests
 
-Go project folder and run
+Go to project folder and run
 
 ```
 https://openframeworks.cc/setup/linux-install/
@@ -70,19 +70,19 @@ keys: Up, Down, Left, Right.
 
 ![Alt Text](https://media.giphy.com/media/jP4bEFKJ9QSnoL2cDG/giphy.gif)
 
-use boomerang, after get it.
+To use the boomerang, after you get it.
 
 ```
 keys: e.
 ```
 
-use Arrow, after get it.
+Use Arrow, after get it.
 
 ```
 keys: Space.
 ```
 
-use bomb, after get it.
+Use bomb, after get it.
 
 ```
 keys: q and after aiming left click.
