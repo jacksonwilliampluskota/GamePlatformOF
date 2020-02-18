@@ -1,14 +1,14 @@
 # GamePlatformOF
 
-Platform Game make in OpenFramework
+Platform Game maker in OpenFramework
 
 ## Getting Started
 
-Firs you need save the project in /Documents
+First you will need to save the project in /Documents
 
 ### Prerequisites
 
-You nedd download Openframework install linux gcc6 or later. Work only linux. Save openframework in "/Downloads"
+You need to download Openframework and install linux gcc6 or later. Work only linux. Save openframework in "/Downloads"
 
 ```
 https://openframeworks.cc/download/
@@ -18,13 +18,13 @@ https://openframeworks.cc/download/
 
 ### Installing
 
-Firt you need change project name to "plataformGame"
+First you need to change the project name to "plataformGame"
 
 ```
 sudo mv GamePlatformOF/ plataformGame/
 ```
 
-Chage name of donloaded openframework to "OF"
+Change the name of donloaded openframework to "OF"
 
 ```
 sudo mv of_vx.xx.x_linux64gcc6_release/ OF/
@@ -48,13 +48,13 @@ like this:
 
 ## Running the tests
 
-Go project folder ande run
+Go to project folder and run
 
 ```
 https://openframeworks.cc/setup/linux-install/
 
 ```
-after go to bin/ and execute
+After go to bin/ and execute
 
 ```
 ./plataformGame
@@ -70,19 +70,19 @@ keys: Up, Down, Left, Right.
 
 ![Alt Text](https://media.giphy.com/media/jP4bEFKJ9QSnoL2cDG/giphy.gif)
 
-use boomerang, after get it.
+To use the boomerang, after you get it.
 
 ```
 keys: e.
 ```
 
-use Arrow, after get it.
+Use Arrow, after get it.
 
 ```
 keys: Space.
 ```
 
-use bomb, after get it.
+Use bomb, after get it.
 
 ```
 keys: q and after aiming left click.
